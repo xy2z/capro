@@ -47,7 +47,7 @@ Currently none. Sponsor here: https://github.com/sponsors/xy2z
 ## Quick Setup
 First install the capro global package
 ```bash
-composer global require xy2z/capro
+composer global require xy2z/capro:@alpha
 ```
 
 Now, you can create new sites using:
