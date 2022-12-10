@@ -1,0 +1,45 @@
+{
+    "name": "xy2z/capro",
+    "description": "Static site generator",
+    "type": "library",
+	"license": "MIT",
+	"homepage": "https://capro.xy2z.io",
+    "authors": [
+        {
+            "name": "Alexander <xy2z> Pedersen",
+            "email": "xy2z@pm.me",
+			"homepage": "https://xy2z.io",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "7.4 - 8.1",
+        "jenssegers/blade": "1.4.*",
+        "xy2z/lite-config": "^1.1",
+        "symfony/yaml": "^5.3",
+        "spatie/yaml-front-matter": "^2.0",
+        "league/commonmark": "^2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "xy2z\\Capro\\": "src/",
+            "xy2z\\Capro\\Commands\\": "src/Commands"
+        },
+		"files": [
+			"src/Helper.php"
+		]
+    },
+    "bin": [
+        "capro"
+    ],
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.11",
+        "phpstan/phpstan": "^1.7"
+    },
+	"funding": [
+		{
+			"type": "github",
+			"url": "https://github.com/sponsors/xy2z"
+		}
+	]
+}

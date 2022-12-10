@@ -1,0 +1,69 @@
+#!/usr/bin/env php
+<?php
+
+// Start Timer
+use xy2z\Capro\Commands\CommandBuild;
+use xy2z\Capro\Commands\CommandNewSite;
+use xy2z\Capro\Commands\CommandConfig;
+use xy2z\Capro\Config;
+
+// Call bootstrap to check if we should use capro shortcut for vendor/bin/capro.
+require __DIR__ . '/src/capro_bootstrap.php';
+
+
+// Prepare
+// Check if we are in a project dir
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+	// Development (when developing/testing this project),
+	// using `php capro <cmd>`
+	require __DIR__ . '/vendor/autoload.php';
+	define('SITE_ROOT_DIR', __DIR__ . DIRECTORY_SEPARATOR);
+}
+
+if (file_exists(__DIR__ . '/../../autoload.php')) {
+	// For sites that is using this using vendor/bin
+	// Also for global installed..
+	require __DIR__ . '/../../autoload.php';
+	define('SITE_ROOT_DIR', __DIR__ . '/../../../'); // go back 3 dirs (/vendor/xy2z/capro/)
+}
+
+// This is required to make the classes available in the Blade views.
+class_alias('xy2z\Capro\Capro', 'Capro');
+
+// Load config
+define('CONFIG_DIR', SITE_ROOT_DIR . DIRECTORY_SEPARATOR . 'config');
+Config::loadDir(CONFIG_DIR, true);
+
+// Set CONSTANTS from Config (or use defaults) -- after loading config.
+// Cant use realpath() here because the directories might not exist yet.
+define('PUBLIC_DIR', SITE_ROOT_DIR . Config::get('core.public_dir', 'public'));
+define('VIEWS_DIR', SITE_ROOT_DIR . Config::get('core.views_dir', 'views'));
+define('VIEWS_CACHE_DIR', SITE_ROOT_DIR . Config::get('core.views_cache_dir', 'cache'));
+define('STATIC_DIR', SITE_ROOT_DIR . Config::get('core.static_dir', 'static'));
+
+
+
+
+// Check if command argument is set.
+$command = $argv[1] ?? null;
+if (isset($command)) {
+	$command = strtolower($command);
+} else {
+	tell('Need a command.');
+	exit;
+}
+
+// Run command.
+if (($command === 'build') || ($command === 'b')) {
+	(new CommandBuild($argv))->run();
+} else if ($command == 'new') {
+	(new CommandNewSite($argv))->run();
+} else if ($command == 'config') {
+	(new CommandConfig($argv))->run();
+} else if ($command == 'where') {
+	tell(__DIR__);
+} else if (in_array($command, ['-v', '-V', '--version', 'version'])) {
+	tell(CAPRO_VERSION);
+} else {
+	tell('Unknown command.');
+}

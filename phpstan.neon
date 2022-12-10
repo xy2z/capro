@@ -1,0 +1,15 @@
+parameters:
+	# Upgrade to level 6 after PHP 7.4 is EOL, so I can use "mixed" type from PHP 8.0+
+	level: 5
+	bootstrapFiles:
+		- src/capro_bootstrap.php
+	scanFiles:
+		- capro
+	paths:
+		- src
+		# - tests
+	ignoreErrors:
+		# Ignore magic method `__get()` calls in PublicView class.
+		- '/^Access to an undefined property xy2z\\Capro\\PublicView::\$[a-zA-Z_]+\.$/'
+		# Ignore unused parameter $argv, because it's required by the CommandInterface.
+		- '/^Constructor of class xy2z\\Capro\\Commands\\Command[a-zA-z0-9_]+ has an unused parameter \$argv.$/'

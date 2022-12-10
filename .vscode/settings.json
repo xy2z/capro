@@ -1,0 +1,31 @@
+{
+	"search.useIgnoreFiles": false,
+
+	// Exclude files in vscode search / quick find - but they should still be in git (they arent gitignored)
+	"search.exclude": {
+		"**/vendor/": true,
+		"**/node_modules": true,
+		"**/tmp": true,
+
+		"/old.php": true,
+		"/old/": true,
+		// "/tmp*": true,
+		"/test*.php": true,
+		"**/cache/": true,
+
+		// Laravel
+		"storage/framework/cache": true,
+		"storage/framework/views": true,
+
+		// Docker
+		"mysql": true,
+	},
+
+	// Controls if the editor should automatically format the line after typing
+	"editor.detectIndentation": false,
+	"editor.insertSpaces": false,
+	"editor.formatOnSave": true, // needs "php intelephense" for formatting.
+
+	"intelephense.format.braces": "k&r",
+
+}

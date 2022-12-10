@@ -1,0 +1,13 @@
+# Gitignore for Capro Core (not for sites)
+/vendor/
+/cache/
+/config/
+/content/
+/views/
+/static/
+/public/
+/tmp*
+/test*
+.capro-cache*
+.php-cs-fixer.cache
+desktop.ini
