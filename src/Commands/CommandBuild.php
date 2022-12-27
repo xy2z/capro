@@ -133,7 +133,7 @@ class CommandBuild implements CommandInterface {
 		$this->load_view_templates();
 	}
 
-	protected function get_all_pages(string $dir): object {
+	protected function get_all_pages(string $dir): Generator {
 		foreach (scandir($dir) as $item) {
 			if (($item === '.') || ($item === '..')) {
 				continue;
