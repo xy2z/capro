@@ -207,8 +207,7 @@ class CommandBuild implements CommandInterface {
 
 	protected function finish(): void {
 		// Stop timer
-		$time_end_build = microtime_float();
-		$build_time = number_format($time_end_build - CAPRO_TIME_START_BUILD, 2);
+		$build_time = number_format(microtime(true) - CAPRO_TIME_START_BUILD, 2);
 
 		// Print success / errors.
 		echo PHP_EOL;

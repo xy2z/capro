@@ -27,6 +27,11 @@ if (file_exists(__DIR__ . '/../../autoload.php')) {
 	define('SITE_ROOT_DIR', __DIR__ . '/../../../'); // go back 3 dirs (/vendor/xy2z/capro/)
 }
 
+if (!defined('SITE_ROOT_DIR')) {
+	echo 'Error: Composer autoload.php was not found. (try "composer install")' . PHP_EOL;
+	exit(1);
+}
+
 // This is required to make the classes available in the Blade views.
 class_alias('xy2z\Capro\Capro', 'Capro');
 
@@ -40,7 +45,6 @@ define('PUBLIC_DIR', SITE_ROOT_DIR . Config::get('core.public_dir', 'public'));
 define('VIEWS_DIR', SITE_ROOT_DIR . Config::get('core.views_dir', 'views'));
 define('VIEWS_CACHE_DIR', SITE_ROOT_DIR . Config::get('core.views_cache_dir', 'cache'));
 define('STATIC_DIR', SITE_ROOT_DIR . Config::get('core.static_dir', 'static'));
-
 
 
 

@@ -1,13 +1,7 @@
 <?php
 
+define('CAPRO_TIME_START_BUILD', microtime(true));
 define('CAPRO_VERSION', '1.0.0-alpha.19');
-
-
-function microtime_float(): float {
-	list($usec, $sec) = explode(" ", microtime());
-	return ((float) $usec + (float) $sec);
-}
-define('CAPRO_TIME_START_BUILD', microtime_float());
 
 
 /**
