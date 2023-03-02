@@ -9,7 +9,8 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
-.env
+/.vscode
 /.vagrant
+.env
 .phpunit.result.cache
 .php-cs-fixer.cache

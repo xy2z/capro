@@ -1,4 +1,5 @@
 # Gitignore for Capro Core (not for sites)
+/.vscode
 /vendor/
 /cache/
 /config/
