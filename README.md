@@ -13,6 +13,7 @@ Capro is a static-site generator for PHP 7.4+.
   <a href="https://github.com/xy2z/capro/blob/master/LICENSE"><img src="https://img.shields.io/github/license/xy2z/capro?style=flat-square&color=blue"></a>
   <a href="https://github.com/xy2z/capro/graphs/contributors"><img src="https://img.shields.io/github/contributors/xy2z/capro?style=flat-square"></a>
   <a href="https://github.com/xy2z/capro/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22"><img src="https://img.shields.io/github/issues/xy2z/capro/help%20wanted?label=help%20wanted%20issues&style=flat-square&color=f26222"></a>
+  <a href=""><img src="https://img.shields.io/github/milestones/progress-percent/xy2z/capro/1?label=alpha%20completion&style=flat-square"></a>
 </p>
 
 ---
