@@ -31,6 +31,10 @@ class FileWatcher {
 		$this->changes = false;
 
 		foreach ($this->directories as $directory) {
+			if (!is_dir($directory)) {
+				// tell('Dir does not exist: ' . $directory);
+				continue;
+			}
 			$this->scandir($directory);
 		}
 

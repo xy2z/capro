@@ -1,7 +1,7 @@
 <?php
 
 define('CAPRO_TIME_START_BUILD', microtime(true));
-define('CAPRO_VERSION', '1.0.0-alpha.23');
+define('CAPRO_VERSION', '1.0.0-alpha.24');
 
 
 /**
