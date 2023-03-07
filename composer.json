@@ -18,7 +18,8 @@
         "xy2z/lite-config": "^1.1",
         "symfony/yaml": "^5.3",
         "spatie/yaml-front-matter": "^2.0",
-        "league/commonmark": "^2.1"
+        "league/commonmark": "^2.1",
+        "statix/server": "^0.4.1"
     },
     "autoload": {
         "psr-4": {
@@ -26,7 +27,7 @@
             "xy2z\\Capro\\Commands\\": "src/Commands"
         },
 		"files": [
-			"src/Helper.php"
+			"src/helpers.php"
 		]
     },
     "bin": [

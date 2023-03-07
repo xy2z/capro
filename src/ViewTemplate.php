@@ -13,6 +13,7 @@ use Generator;
 class ViewTemplate {
 	protected string $label;
 	protected string $template_view;
+	protected string $template_view_path;
 	protected string $result_path;
 
 	/** @var array<mixed> */
@@ -48,7 +49,7 @@ class ViewTemplate {
 	}
 
 	public function load_views(): Generator {
-		$this->template_view = VIEWS_DIR . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->template_view . '.blade.php';
+		$this->template_view_path = VIEWS_DIR . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->template_view . '.blade.php';
 
 		// Make a View for each row in $items.
 		foreach ($this->items as $item) {
@@ -60,7 +61,7 @@ class ViewTemplate {
 				save_path: $this->get_public_path($item),
 			); */
 			$view = new View(
-				$this->template_view,
+				$this->template_view_path,
 				View::TYPE_TEMPLATE,
 				$this->label,
 				$this->get_public_path($item),

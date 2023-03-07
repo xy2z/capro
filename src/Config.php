@@ -17,4 +17,13 @@ class Config extends LiteConfig {
 
 		return null;
 	}
+
+	public static function load_capro_config(): void {
+		self::loadDir(CONFIG_DIR, true);
+	}
+
+	public static function reload(): void {
+		self::resetData();
+		self::load_capro_config();
+	}
 }

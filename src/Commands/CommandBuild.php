@@ -8,6 +8,7 @@ use xy2z\Capro\Capro;
 use xy2z\Capro\ViewTemplate;
 use xy2z\Capro\Config;
 use xy2z\Capro\Commands\CommandInterface;
+use xy2z\Capro\Commands\CommandServe;
 
 /**
  * CommandBuild
@@ -207,7 +208,12 @@ class CommandBuild implements CommandInterface {
 
 	protected function finish(): void {
 		// Stop timer
-		$build_time = number_format(microtime(true) - CAPRO_TIME_START_BUILD, 2);
+		if (!is_null(CommandServe::$time_start_build)) {
+			// Timer was started by "serve", so it will reset for every build.
+			$build_time = number_format(microtime(true) - CommandServe::$time_start_build, 2);
+		} else {
+			$build_time = number_format(microtime(true) - CAPRO_TIME_START_BUILD, 2);
+		}
 
 		// Print success / errors.
 		echo PHP_EOL;

@@ -59,7 +59,7 @@ php -S localhost:82
 ```
 Head over to http://localhost:82 to see your new static Capro site.
 
-Learn more in the **[full documentation](https://capro.xy2z.io).**
+Learn more in the **[full documentation site](https://capro.xy2z.io).** (which was build in capro)
 
 
 ## Contributing
