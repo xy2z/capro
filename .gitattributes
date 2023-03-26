@@ -6,4 +6,5 @@
 /.psalm           export-ignore
 /tests            export-ignore
 /phpstan          export-ignore
+/phpstan.neon     export-ignore
 /.vscode          export-ignore
