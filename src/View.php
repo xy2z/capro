@@ -10,6 +10,7 @@ use Exception;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 use Jenssegers\Blade\Blade;
 use xy2z\Capro\PublicView;
+use Spatie\YamlFrontMatter\Document;
 use Throwable;
 
 class View {
@@ -21,9 +22,8 @@ class View {
 	protected string $label;
 	protected string $save_path; // full path to where the build view file (html) will be saved.
 	protected string $href;
-	// protected bool $is_page; // True = is page. False = is collection item.
 	protected int $type; // True = is page. False = is collection item.
-	protected object $yaml_front_matter;
+	protected Document $yaml_front_matter;
 
 	public const TYPE_PAGE = 0;
 	public const TYPE_COLLECTION = 1;
@@ -52,7 +52,7 @@ class View {
 		$this->basename = str_replace('.blade.php', '', basename($this->path));
 		$this->relative_path = str_replace(SITE_ROOT_DIR, '', $this->path);
 
-		$this->raw_file_content = file_get_contents($this->path);
+		$this->raw_file_content = @file_get_contents($this->path) ?: '';
 		try {
 			$this->yaml_front_matter = YamlFrontMatter::parse($this->raw_file_content);
 		} catch (Throwable $e) {
@@ -103,7 +103,7 @@ class View {
 		$this->href = $href;
 	}
 
-	public function get_view_data(/*mixed*/$key = null) { /*: mixed*/
+	public function get_view_data(mixed $key = null): mixed {
 		$data =  array_merge($this->view_data, $this->yaml_front_matter->matter());
 		if (isset($key)) {
 			// Return only the specific key.
@@ -117,7 +117,7 @@ class View {
 	/**
 	 * Get property or yaml-front-matter value.
 	 */
-	public function get(string $param) { /*: mixed*/
+	public function get(string $param): mixed {
 		if (isset($this->$param)) {
 			return $this->$param;
 		} else {
@@ -133,7 +133,6 @@ class View {
 		// Make directory for the file in the PUBLIC dir, since it will always be saved as 'index.html'.
 		$save_path_dir = dirname($this->save_path);
 		if (!is_dir($save_path_dir)) {
-			// tell('Creating new dir (recursive): ' . dirname($save_path_dir));
 			mkdir($save_path_dir, 0775, true);
 		}
 
@@ -200,8 +199,8 @@ class View {
 		return new PublicView($this);
 	}
 
-	public function is_build_disabled() {
+	public function is_build_disabled(): bool {
 		// Check if "core.disable_build" is set in the view.
-		return ($this->get_view_data('core.disable_build'));
+		return (bool) ($this->get_view_data('core.disable_build'));
 	}
 }

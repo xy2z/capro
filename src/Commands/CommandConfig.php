@@ -9,6 +9,7 @@ use xy2z\Capro\Config;
  * Debug config in the command line interface.
  */
 class CommandConfig implements CommandInterface {
+	/** @var array<mixed> */
 	protected array $argv;
 	protected bool $var_dump = false;
 
@@ -33,8 +34,7 @@ class CommandConfig implements CommandInterface {
 	 * Return either ALL config values, or the one's specificed in arguments.
 	 * Eg `capro config app.title app.email core` should output all 3 variables.
 	 */
-	// private function get_result(): mixed {
-	private function get_result() {
+	private function get_result(): mixed {
 		$result = [];
 		foreach (array_slice($this->argv, 2) as $arg) {
 			// Return the first argument that isn't a flag/option.

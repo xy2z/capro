@@ -95,10 +95,8 @@ class CommandBuild implements CommandInterface {
 		$page_dir = VIEWS_DIR . DIRECTORY_SEPARATOR . 'pages'; // No trailing slashes!
 		foreach ($this->get_all_pages($page_dir) as $file) {
 			$view = new View(
-				/* path:*/
-				$file->path,
-				/* type:*/
-				View::TYPE_PAGE,
+				path: $file->path,
+				type: View::TYPE_PAGE,
 			);
 
 			if ($view->is_build_disabled()) {
@@ -114,12 +112,9 @@ class CommandBuild implements CommandInterface {
 		$collections_dir = VIEWS_DIR . DIRECTORY_SEPARATOR . 'collections';
 		foreach ($this->get_all_collections_views($collections_dir) as $file) {
 			$view = new View(
-				// path:
-				$file->path,
-				// type:
-				View::TYPE_COLLECTION,
-				// label:
-				$file->collection_dir
+				path: $file->path,
+				type: View::TYPE_COLLECTION,
+				label: $file->collection_dir
 			);
 
 			if ($view->is_build_disabled()) {
@@ -208,7 +203,7 @@ class CommandBuild implements CommandInterface {
 
 	protected function finish(): void {
 		// Stop timer
-		if (!is_null(CommandServe::$time_start_build)) {
+		if (CommandServe::$time_start_build > 0) {
 			// Timer was started by "serve", so it will reset for every build.
 			$build_time = number_format(microtime(true) - CommandServe::$time_start_build, 2);
 		} else {

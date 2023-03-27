@@ -12,10 +12,11 @@ use xy2z\Capro\FileWatcher;
  * Serve the public directory for development.
  */
 class CommandServe implements CommandInterface {
+	/** @var array<mixed> */
 	protected array $argv;
-	protected $server;
-	protected $quiet = false;
-	public static $time_start_build = null;
+	protected Server $server;
+	protected bool $quiet = false;
+	public static float $time_start_build = 0;
 	private FileWatcher $FileWatcher;
 
 	/** @param array<string> $argv */
@@ -87,7 +88,7 @@ class CommandServe implements CommandInterface {
 		(new CommandBuild([]))->run();
 		$out = ob_get_clean();
 
-		if (!$this->quiet) {
+		if (!$this->quiet && $out) {
 			// Print only last line ("Done ...")
 			$lines = explode(PHP_EOL, $out);
 			$lastline = $lines[count($lines) - 2];

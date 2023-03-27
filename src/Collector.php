@@ -51,7 +51,7 @@ class Collector {
 		return $this;
 	}
 
-	public function where(string $where_key, $where_val): self {
+	public function where(string $where_key, mixed $where_val): self {
 		foreach ($this->data as $key => $view) {
 			if ($view->$where_key !== $where_val) {
 				// Remove from array.
@@ -61,7 +61,7 @@ class Collector {
 		return $this;
 	}
 
-	public function whereNot(string $where_key, $where_val): self {
+	public function whereNot(string $where_key, mixed $where_val): self {
 		foreach ($this->data as $key => $view) {
 			if ($view->$where_key === $where_val) {
 				// Remove from array.

@@ -17,7 +17,7 @@ abstract class Capro {
 	 *
 	 * @return mixed
 	 */
-	public static function __callStatic(string $name, array $arguments) { /*: mixed*/
+	public static function __callStatic(string $name, array $arguments): mixed {
 		$views = self::$CommandBuild->get_views();
 
 		// Check if call matches "pages()".
@@ -26,7 +26,6 @@ abstract class Capro {
 			foreach ($views as $view) {
 				if ($view->get('type') === View::TYPE_PAGE) {
 					$data_pages[] = $view->get_public_view();
-					// yield $view;
 				}
 			}
 			return new Collector($data_pages);

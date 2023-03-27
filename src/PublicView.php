@@ -21,15 +21,15 @@ class PublicView {
 		$this->view = $view;
 	}
 
-	public function __get($name) {
+	public function __get(string $name): mixed {
 		return $this->view->get($name);
 	}
 
-	public function get($name) {
+	public function get(string $name): mixed {
 		return $this->view->get($name);
 	}
 
-	public function get_all_view_data() {
+	public function get_all_view_data(): mixed {
 		return $this->view->get_view_data();
 	}
 }

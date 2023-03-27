@@ -37,7 +37,7 @@ class ViewTemplate {
 			if (!is_string($value) && !is_float($value) && !is_integer($value)) {
 				continue;
 			}
-			$path = str_replace('{' . $key . '}', $value, $path);
+			$path = str_replace('{' . $key . '}', strval($value), $path);
 		}
 		return $path;
 	}
@@ -53,18 +53,11 @@ class ViewTemplate {
 
 		// Make a View for each row in $items.
 		foreach ($this->items as $item) {
-			/* // PHP 8+
 			$view = new View(
-				path: $this->template_view,
+				path: $this->template_view_path,
 				type: View::TYPE_TEMPLATE,
 				label: $this->label,
 				save_path: $this->get_public_path($item),
-			); */
-			$view = new View(
-				$this->template_view_path,
-				View::TYPE_TEMPLATE,
-				$this->label,
-				$this->get_public_path($item),
 			);
 			$view->set_view_data($item);
 

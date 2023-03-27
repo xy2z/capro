@@ -91,6 +91,6 @@ function confirm(string $question, array $yes = ['y', 'yes']): bool {
  *
  * @return mixed
  */
-function config(string $key, /*mixed*/ $default = null) { /*: mixed*/
+function config(string $key, mixed $default = null): mixed {
 	return Config::get($key, $default);
 }

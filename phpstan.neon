@@ -1,6 +1,5 @@
 parameters:
-	# Upgrade to level 6 after PHP 7.4 is EOL, so I can use "mixed" type from PHP 8.0+
-	level: 5
+	level: 6
 	bootstrapFiles:
 		- src/capro_bootstrap.php
 	scanFiles:

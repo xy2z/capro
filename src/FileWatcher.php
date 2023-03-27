@@ -9,13 +9,20 @@ namespace xy2z\Capro;
  *
  */
 class FileWatcher {
-	private $changes = false;
+	private bool $changes = false;
+
+	/** @var array<string> */
 	private array $directories;
-	private array $files = [];
+
+	/** @var array<string, object> */
+	private array $files;
+
 	private int $files_checked = 0;
 
 	/**
 	 * Constructor
+	 *
+	 * @param array<string> $directories
 	 */
 	public function __construct(array $directories) {
 		$this->directories = $directories;
@@ -26,13 +33,11 @@ class FileWatcher {
 	 */
 	public function is_changed(): bool {
 		// Has any file been added, modified or deleted since last check?
-		// $this->last_files_count = count($this->files);
 		$this->files_checked = 0; // reset.
 		$this->changes = false;
 
 		foreach ($this->directories as $directory) {
 			if (!is_dir($directory)) {
-				// tell('Dir does not exist: ' . $directory);
 				continue;
 			}
 			$this->scandir($directory);
@@ -105,6 +110,8 @@ class FileWatcher {
 
 	/**
 	 * Get all scanned files.
+	 *
+	 * @return array<string, object>
 	 */
 	public function get_scanned_files(): array {
 		return $this->files;

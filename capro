@@ -58,18 +58,12 @@ if (isset($command)) {
 }
 
 // Run command.
-if (($command === 'build') || ($command === 'b')) {
-	(new CommandBuild($argv))->run();
-} else if ($command == 'new') {
-	(new CommandNewSite($argv))->run();
-} else if ($command == 'config') {
-	(new CommandConfig($argv))->run();
-} else if ($command == 'serve') {
-	(new CommandServe($argv))->run();
-} else if ($command == 'where') {
-	tell(__DIR__);
-} else if (in_array($command, ['-v', '-V', '--version', 'version'])) {
-	tell(CAPRO_VERSION);
-} else {
-	tell('Unknown command.');
-}
+match ($command) {
+	'build', 'b' => (new CommandBuild($argv))->run(),
+	'new' => (new CommandNewSite($argv))->run(),
+	'config' => (new CommandConfig($argv))->run(),
+	'serve' => (new CommandServe($argv))->run(),
+	'where' => tell(__DIR__),
+	'-v', '--version', 'version' => tell(CAPRO_VERSION),
+	default => tell('Unknown command.'),
+};

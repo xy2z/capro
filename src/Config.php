@@ -10,7 +10,7 @@ use Symfony\Component\Yaml\Yaml;
  * Add custom hadnler to LiteConfig package to support YAML files.
  */
 class Config extends LiteConfig {
-	protected static function custom_handler(string $extension, string $path) { /*: mixed*/
+	protected static function custom_handler(string $extension, string $path): mixed {
 		if ($extension === 'yml' || $extension === 'yaml') {
 			return Yaml::parseFile($path);
 		}
