@@ -3,7 +3,6 @@
 namespace xy2z\Capro\Commands;
 
 interface CommandInterface {
-
 	/**
 	 * Constructor
 	 *
