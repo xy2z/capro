@@ -3,7 +3,6 @@
 define('CAPRO_TIME_START_BUILD', microtime(true));
 define('CAPRO_VERSION', '1.0.0-alpha.25');
 
-
 /**
  * is_global_bin()
  *
@@ -68,7 +67,6 @@ function is_global_bin(string $dir): bool {
 	// so we assume the user is in a project directory. But we won't cache it for now.
 	return false;
 }
-
 
 // Check if we should passthru to another capro binary.
 // This should do the following:

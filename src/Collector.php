@@ -16,7 +16,6 @@ class Collector {
 	/** @var array<PublicView> */
 	protected array $data;
 
-
 	/** @param array<PublicView> $data */
 	public function __construct(array $data) {
 		$this->original_data = $data;

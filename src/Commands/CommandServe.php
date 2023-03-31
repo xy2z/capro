@@ -39,7 +39,7 @@ class CommandServe implements CommandInterface {
 		$this->FileWatcher = new FileWatcher([
 			VIEWS_DIR,
 			STATIC_DIR,
-			CONFIG_DIR
+			CONFIG_DIR,
 		]);
 
 		while ($this->server->isRunning()) {

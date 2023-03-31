@@ -30,7 +30,6 @@ function rcopy(string $src, string $dest): void {
 	}
 }
 
-
 /**
  * rm_dir_content()
  * This will delete all contents in the directory (including subdirs and hidden files)

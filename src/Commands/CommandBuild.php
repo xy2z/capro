@@ -107,7 +107,6 @@ class CommandBuild implements CommandInterface {
 			$this->views[strtolower($file->path)] = $view;
 		}
 
-
 		// Load Collections (dont build)
 		$collections_dir = VIEWS_DIR . DIRECTORY_SEPARATOR . 'collections';
 		foreach ($this->get_all_collections_views($collections_dir) as $file) {
@@ -140,7 +139,7 @@ class CommandBuild implements CommandInterface {
 				yield from $this->get_all_pages($fullpath);
 			} else {
 				yield (object) [
-					'path' => $fullpath
+					'path' => $fullpath,
 				];
 			}
 		}

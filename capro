@@ -11,7 +11,6 @@ use xy2z\Capro\Config;
 // Call bootstrap to check if we should use capro shortcut for vendor/bin/capro.
 require __DIR__ . '/src/capro_bootstrap.php';
 
-
 // Prepare
 // Check if we are in a project dir
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
@@ -46,7 +45,6 @@ define('PUBLIC_DIR', SITE_ROOT_DIR . Config::get('core.public_dir', 'public'));
 define('VIEWS_DIR', SITE_ROOT_DIR . Config::get('core.views_dir', 'views'));
 define('VIEWS_CACHE_DIR', SITE_ROOT_DIR . Config::get('core.views_cache_dir', 'cache'));
 define('STATIC_DIR', SITE_ROOT_DIR . Config::get('core.static_dir', 'static'));
-
 
 // Check if command argument is set.
 $command = $argv[1] ?? null;
