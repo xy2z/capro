@@ -141,7 +141,7 @@ class CommandBuild implements CommandInterface {
 
 	protected function get_all_pages(string $dir): Generator {
 		foreach (scandir($dir) as $item) {
-			if (static::is_filename_ignored($item)) {
+			if (self::is_filename_ignored($item)) {
 				continue;
 			}
 

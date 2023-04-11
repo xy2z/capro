@@ -18,10 +18,14 @@ class CommandServe implements CommandInterface {
 	protected bool $quiet = false;
 	public static float $time_start_build = 0;
 	private FileWatcher $FileWatcher;
+	private string $host;
+	private string $port;
 
 	/** @param array<string> $argv */
 	public function __construct(array $argv) {
 		$this->argv = $argv;
+		$this->host = config('core.serve_host', '127.0.0.1');
+		$this->port = config('core.serve_port', '82');
 
 		// Quiet mode?
 		if (in_array('-q', $this->argv) || in_array('--quiet', $this->argv)) {
@@ -33,6 +37,11 @@ class CommandServe implements CommandInterface {
 	 * Run the "serve" command.
 	 */
 	public function run(): void {
+		if ($this->is_port_busy()) {
+			tell('Error: Port ' .  $this->port . ' is busy.');
+			return;
+		}
+
 		$this->start_server();
 
 		// Prepare file watcher, to watch for any changes.
@@ -59,8 +68,8 @@ class CommandServe implements CommandInterface {
 	 */
 	private function start_server(): void {
 		$this->server = Server::new()
-			->host(config('core.serve_host', '127.0.0.1'))
-			->port(config('core.serve_port', '82'))
+			->host($this->host)
+			->port($this->port)
 			->root(PUBLIC_DIR);
 
 		if (file_exists(SITE_ROOT_DIR . '/.env')) {
@@ -71,6 +80,23 @@ class CommandServe implements CommandInterface {
 		if (!$this->quiet) {
 			tell('Capro development server started at ' . $this->server->getAddress());
 		}
+	}
+
+	/**
+	 * Check if port is busy (already in use)
+	 *
+	 * @return bool
+	 */
+	private function is_port_busy(): bool {
+		$connection = @fsockopen($this->host, intval($this->port), $error_code, $error_message, 0.2);
+
+		if (is_resource($connection)) {
+			// Port is busy.
+			fclose($connection);
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
