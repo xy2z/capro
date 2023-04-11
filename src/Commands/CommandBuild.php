@@ -31,8 +31,6 @@ class CommandBuild implements CommandInterface {
 	}
 
 	public function run(): void {
-		// tell('Running build command.');
-
 		// Validate before build.
 		$this->validate_in_capro_dir();
 
@@ -90,6 +88,19 @@ class CommandBuild implements CommandInterface {
 		tell('✔ Copied static content in to public directory.');
 	}
 
+	private static function is_filename_ignored(string $filename): bool {
+		if (($filename === '.') || ($filename === '..')) {
+			return true;
+		}
+
+		if (substr($filename, 0, 1) === '.') {
+			// Ignore filename starting with "."
+			return true;
+		}
+
+		return false;
+	}
+
 	private function load_views(): void {
 		// Load Pages (dont build)
 		$page_dir = VIEWS_DIR . DIRECTORY_SEPARATOR . 'pages'; // No trailing slashes!
@@ -130,7 +141,7 @@ class CommandBuild implements CommandInterface {
 
 	protected function get_all_pages(string $dir): Generator {
 		foreach (scandir($dir) as $item) {
-			if (($item === '.') || ($item === '..')) {
+			if (static::is_filename_ignored($item)) {
 				continue;
 			}
 
