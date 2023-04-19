@@ -62,6 +62,6 @@ match ($command) {
 	'config' => (new CommandConfig($argv))->run(),
 	'serve' => (new CommandServe($argv))->run(),
 	'where' => tell(__DIR__),
-	'-v', '--version', 'version' => tell(CAPRO_VERSION),
+	'-v', 'v', '--version', 'version' => tell(CAPRO_VERSION),
 	default => tell('Unknown command.'),
 };
