@@ -37,6 +37,8 @@ class CommandServe implements CommandInterface {
 	 * Run the "serve" command.
 	 */
 	public function run(): void {
+		validate_in_capro_dir();
+
 		if ($this->is_port_busy()) {
 			tell('Error: Port ' .  $this->port . ' is busy.');
 			return;

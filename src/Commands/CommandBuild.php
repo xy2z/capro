@@ -32,7 +32,7 @@ class CommandBuild implements CommandInterface {
 
 	public function run(): void {
 		// Validate before build.
-		$this->validate_in_capro_dir();
+		validate_in_capro_dir();
 
 		// Start
 		tell('Building site...');
@@ -48,14 +48,6 @@ class CommandBuild implements CommandInterface {
 
 		// Done building.
 		$this->finish();
-	}
-
-	private function validate_in_capro_dir(): void {
-		// Validate that the current working dir (cwd) is a capro project directory.
-		if (!file_exists(getcwd() . '/composer.json') && !file_exists(getcwd() . '/vendor/bin/capro')) {
-			tell('Sorry, it doesnt look like you are in a capro directory...');
-			exit;
-		}
 	}
 
 	private function rm_public_dir(): void {

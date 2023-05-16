@@ -93,3 +93,15 @@ function confirm(string $question, array $yes = ['y', 'yes']): bool {
 function config(string $key, mixed $default = null): mixed {
 	return Config::get($key, $default);
 }
+
+/**
+ * Validate cwd (current working dir) is a capro project directory. Exists if not.
+ * @return void
+ */
+function validate_in_capro_dir(): void {
+	// Validate that the current working dir (cwd) is a capro project directory.
+	if (!file_exists(getcwd() . '/composer.json') && !file_exists(getcwd() . '/vendor/bin/capro')) {
+		tell('Sorry, it doesnt look like you are in a capro directory...');
+		exit;
+	}
+}
