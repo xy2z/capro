@@ -77,6 +77,12 @@ class View {
 			throw new Exception('Unknown View type.');
 		}
 
+		if (!empty($this->get_view_data('core.save_as'))) {
+			$save_as = $this->get_view_data('core.save_as');
+			$this->href = str_replace('\\', '/', $relative_dir) . '/' . $save_as;
+			$this->save_path = PUBLIC_DIR . $relative_dir . DIRECTORY_SEPARATOR . $save_as;
+		}
+
 		if (($this->basename == 'index') && empty($relative_dir)) {
 			// Root index.html
 			$this->href = '/';
