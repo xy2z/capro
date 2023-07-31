@@ -51,6 +51,10 @@ class ViewTemplate {
 	public function load_views(): Generator {
 		$this->template_view_path = VIEWS_DIR . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->template_view . '.blade.php';
 
+		if (!file_exists($this->template_view_path)) {
+			tell_error('Error: Template view not found: ' . $this->template_view_path);
+		}
+
 		// Make a View for each row in $items.
 		foreach ($this->items as $item) {
 			$view = new View(
