@@ -19,7 +19,8 @@
         "symfony/yaml": "^5.3",
         "spatie/yaml-front-matter": "^2.0",
         "league/commonmark": "^2.1",
-        "statix/server": "^0.4.1"
+        "statix/server": "^0.4.1",
+        "vlucas/phpdotenv": "^5.5"
     },
     "autoload": {
         "psr-4": {

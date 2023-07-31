@@ -7,6 +7,13 @@ function tell(string $msg): void {
 	echo '» ' . $msg . PHP_EOL;
 }
 
+function tell_error(string $msg, bool $exit = true): void {
+	echo '❌ ' . $msg . PHP_EOL;
+	if ($exit) {
+		exit(1);
+	}
+}
+
 // Recursive copy directory content from $src to $dest
 function rcopy(string $src, string $dest): void {
 	if (!is_dir($dest)) {
