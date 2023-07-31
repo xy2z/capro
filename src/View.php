@@ -81,6 +81,7 @@ class View {
 			$save_as = $this->get_view_data('core.save_as');
 			$this->href = str_replace('\\', '/', $relative_dir) . '/' . $save_as;
 			$this->save_path = PUBLIC_DIR . $relative_dir . DIRECTORY_SEPARATOR . $save_as;
+			return;
 		}
 
 		if (($this->basename == 'index') && empty($relative_dir)) {
