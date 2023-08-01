@@ -164,6 +164,27 @@ class Collector {
 		return $this;
 	}
 
+	// Exclude views
+	public function exclude(PublicView|array $exclude_views) {
+		if (!is_array($exclude_views)) {
+			$exclude_views = [$exclude_views];
+		}
+
+		foreach ($exclude_views as $view) {
+			if (!$view instanceof PublicView) {
+				throw new \Exception('exclude() expects an array of PublicView objects.');
+			}
+		}
+
+		foreach ($this->data as $i => $view) {
+			if (in_array($view, $exclude_views)) {
+				unset($this->data[$i]); // Remove from array.
+			}
+		}
+
+		return $this;
+	}
+
 	public function shuffle(): self {
 		shuffle($this->data);
 		return $this;
