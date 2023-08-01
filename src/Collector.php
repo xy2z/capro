@@ -27,12 +27,16 @@ class Collector {
 		return $this->data;
 	}
 
-	public function first(): PublicView {
-		return $this->data[array_key_first($this->data)];
+	public function count(): int {
+		return count($this->data);
 	}
 
-	public function last(): PublicView {
-		return $this->data[array_key_last($this->data)];
+	public function first(): ?PublicView {
+		return $this->data[array_key_first($this->data)] ?? null;
+	}
+
+	public function last(): ?PublicView {
+		return $this->data[array_key_last($this->data)] ?? null;
 	}
 
 	public function limit(int $limit, int $offset = 0): self {

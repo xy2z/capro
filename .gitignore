@@ -12,3 +12,4 @@
 .capro-cache*
 .php-cs-fixer.cache
 desktop.ini
+/.env
