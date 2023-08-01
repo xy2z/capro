@@ -139,6 +139,11 @@ class Collector {
 		return $this;
 	}
 
+	public function orderByDesc(string $sort_key, bool $case_insensitive = true): self {
+		$this->orderBy($sort_key, $case_insensitive)->reverse();
+		return $this;
+	}
+
 	public function whereHas(string $key): self {
 		foreach ($this->data as $i => $view) {
 			if (is_null($view->$key ?? null)) {
