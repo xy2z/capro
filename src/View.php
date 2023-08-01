@@ -111,7 +111,10 @@ class View {
 	}
 
 	public function get_view_data(mixed $key = null): mixed {
-		$data =  array_merge($this->view_data, $this->yaml_front_matter->matter());
+		$data =  array_merge($this->view_data, $this->yaml_front_matter->matter(), [
+			'self' => $this->get_public_view(),
+		]);
+
 		if (isset($key)) {
 			// Return only the specific key.
 			return $data[$key] ?? null;
@@ -155,7 +158,7 @@ class View {
 			// $build_content = $make->__toString(); // Do this here so it can throw exceptions.
 			$build_content = strval($make); // Do this here so it can throw exceptions.
 		} catch (Throwable $e) {
-			tell('Error in ' . $this->relative_path . ': ' . $e->getMessage());
+			tell_error('Error in ' . $this->relative_path . ': ' . $e->getMessage());
 		}
 
 		if (is_null($build_content)) {
