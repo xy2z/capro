@@ -51,8 +51,8 @@ if (file_exists(SITE_ROOT_DIR . '.env')) {
 define('CONFIG_DIR', SITE_ROOT_DIR . 'config');
 if (is_dir(CONFIG_DIR)) {
 	Config::load_capro_config();
-} else {
-	tell('Notice: Config dir not found: ' . CONFIG_DIR);
+	// } else {
+	// tell('Notice: Config dir not found: ' . CONFIG_DIR); // verbose. (but never for global composer "capro" commands.)
 }
 
 // Set CONSTANTS from Config (or use defaults) -- after loading config.

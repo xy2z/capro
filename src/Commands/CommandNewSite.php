@@ -42,8 +42,12 @@ class CommandNewSite implements CommandInterface {
 		echo PHP_EOL;
 
 		// Bulild the new site.
+		ob_start();
 		passthru('php vendor/bin/capro build');
-		echo PHP_EOL;
-		tell('✔ Done. Your new site has been setup and build. Run `php -S localhost:8000` in the ' . $this->site_name . '/public directory to see your site.');
+		ob_get_clean();
+
+		$time = number_format(microtime(true) - CAPRO_START_TIME, 2);
+		tell('✔ Done in ' . $time . ' seconds. Your new site has been setup and build!');
+		tell('Run `php -S localhost:8000` in the ' . $this->site_name . '/public directory to see your site.');
 	}
 }

@@ -69,7 +69,7 @@ class CommandBuild implements CommandInterface {
 		// Make cache dir if not exists.
 		if (!is_dir(VIEWS_CACHE_DIR)) {
 			if (mkdir(VIEWS_CACHE_DIR, 0775, true)) {
-				tell('✔ Created cache dir: ' . VIEWS_CACHE_DIR);
+				tell('✔ Created cache dir: ' . realpath(VIEWS_CACHE_DIR));
 			} else {
 				tell_error('Error: Could not create cache dir: ' . VIEWS_CACHE_DIR);
 			}
@@ -92,12 +92,12 @@ class CommandBuild implements CommandInterface {
 
 	private function copy_static_dir_to_public(): void {
 		if (!is_dir(STATIC_DIR)) {
-			tell('Notice: Static dir not found: ' . CONFIG_DIR);
+			// tell('Notice: Static dir not found: ' . STATIC_DIR); // verbose. (but never for "capro new" commands)
 			return;
 		}
 
 		rcopy(STATIC_DIR, PUBLIC_DIR);
-		// tell('✔ Copied static content in to public directory.');
+		// tell('✔ Copied static content in to public directory.'); // verbose.
 	}
 
 	private static function is_filename_ignored(string $filename): bool {
@@ -229,7 +229,7 @@ class CommandBuild implements CommandInterface {
 			// Timer was started by "serve", so it will reset for every build.
 			$build_time = number_format(microtime(true) - CommandServe::$time_start_build, 2);
 		} else {
-			$build_time = number_format(microtime(true) - CAPRO_TIME_START_BUILD, 2);
+			$build_time = number_format(microtime(true) - CAPRO_START_TIME, 2);
 		}
 
 		// Print success / errors.
