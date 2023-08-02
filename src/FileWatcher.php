@@ -17,15 +17,24 @@ class FileWatcher {
 	/** @var array<string, object> */
 	private array $files;
 
+	/** @var array<string> */
+	private array $exclude_paths;
+
 	private int $files_checked = 0;
 
 	/**
 	 * Constructor
 	 *
 	 * @param array<string> $directories
+	 * @param array<string> $exclude_paths
 	 */
-	public function __construct(array $directories) {
+	public function __construct(array $directories, array $exclude_paths = []) {
 		$this->directories = $directories;
+
+		// Make sure all excluded paths are using realpath to avoid forward/backward slashes issues.
+		foreach ($exclude_paths as $key => $path) {
+			$this->exclude_paths[realpath($path)] = 1;
+		}
 	}
 
 	/**
@@ -40,6 +49,7 @@ class FileWatcher {
 			if (!is_dir($directory)) {
 				continue;
 			}
+
 			$this->scandir($directory);
 		}
 
@@ -63,6 +73,10 @@ class FileWatcher {
 	 * Scan directories recursively if any files was added or modified since last check.
 	 */
 	private function scandir(string $directory): void {
+		if ($this->is_excluded($directory)) {
+			return;
+		}
+
 		foreach (scandir($directory) as $item) {
 			if ($item === '.' || $item === '..') {
 				continue;
@@ -78,10 +92,18 @@ class FileWatcher {
 		}
 	}
 
+	private function is_excluded(string $path): bool {
+		return (isset($this->exclude_paths[$path]));
+	}
+
 	/**
 	 * Check if file is new or modified since last check.
 	 */
 	private function check_file(string $file): void {
+		if ($this->is_excluded($file)) {
+			return;
+		}
+
 		$this->files_checked++;
 		if (!isset($this->files[$file])) {
 			// New file. Add to array for next check.
