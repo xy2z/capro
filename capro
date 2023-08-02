@@ -36,12 +36,15 @@ if (!defined('SITE_ROOT_DIR')) {
 class_alias('xy2z\Capro\Capro', 'Capro');
 
 // Load env (before config)
-$dotenv = Dotenv\Dotenv::createImmutable(SITE_ROOT_DIR);
-try {
-	$dotenv->load();
-} catch (Exception $e) {
-	// Do nothing
-	tell_error('Invalid .env file. Error message: ' . $e->getMessage());
+if (file_exists(SITE_ROOT_DIR . '.env')) {
+	// Load .env file
+	$dotenv = Dotenv\Dotenv::createImmutable(SITE_ROOT_DIR);
+	try {
+		$dotenv->load();
+	} catch (Exception $e) {
+		// Do nothing
+		tell_error('Invalid .env file. Error message: ' . $e->getMessage());
+	}
 }
 
 // Load config
