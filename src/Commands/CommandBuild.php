@@ -34,10 +34,15 @@ class CommandBuild implements CommandInterface {
 		// Validate before build.
 		validate_in_capro_dir();
 
+		// Validate dirs exists
+		if (!is_dir(VIEWS_DIR)) {
+			tell_error('Views dir not found: ' . VIEWS_DIR);
+		}
+
 		// Start
-		tell('Building site...');
+		// tell('Building site...');
 		$this->rm_public_dir();
-		$this->rm_cache_dir();
+		$this->check_cache_dir();
 		$this->copy_static_dir_to_public();
 
 		// Get information about pages and collections.
@@ -55,29 +60,44 @@ class CommandBuild implements CommandInterface {
 		try {
 			rm_dir_content(PUBLIC_DIR);
 		} catch (\Exception $e) {
-			echo PHP_EOL;
-			echo 'Error: ' . $e->getMessage() . ' - is the file/dir open?';
-			exit;
+			tell_error('Error: ' . $e->getMessage() . ' - is the file/dir open?');
 		}
-		tell('✔ Cleared: public dir.');
+		// tell('✔ Cleared: public dir.');
 	}
 
-	private function rm_cache_dir(): void {
+	private function check_cache_dir(): void {
+		// Make cache dir if not exists.
+		if (!is_dir(VIEWS_CACHE_DIR)) {
+			if (mkdir(VIEWS_CACHE_DIR, 0775, true)) {
+				tell('✔ Created cache dir: ' . VIEWS_CACHE_DIR);
+			} else {
+				tell_error('Error: Could not create cache dir: ' . VIEWS_CACHE_DIR);
+			}
+			return;
+		}
+
+		// Deprecated below: Why remove the cache dir on every build? then why have a cache dir at all?...
+		// ---------------
 		// Remove all content in the cache dir.
+		/*
 		try {
 			rm_dir_content(VIEWS_CACHE_DIR);
 		} catch (\Exception $e) {
-			echo PHP_EOL;
-			echo 'Error: ' . $e->getMessage() . ' - is the file/dir open?';
-			exit;
+			tell_error('Error: ' . $e->getMessage() . ' - is the file/dir open?');
 		}
 		tell('✔ Cleared: cache dir.');
+		*/
+		// ---------------
 	}
 
 	private function copy_static_dir_to_public(): void {
-		// Copy "static" files to "public" dir.
+		if (!is_dir(STATIC_DIR)) {
+			tell('Notice: Static dir not found: ' . CONFIG_DIR);
+			return;
+		}
+
 		rcopy(STATIC_DIR, PUBLIC_DIR);
-		tell('✔ Copied static content in to public directory.');
+		// tell('✔ Copied static content in to public directory.');
 	}
 
 	private static function is_filename_ignored(string $filename): bool {
@@ -172,10 +192,10 @@ class CommandBuild implements CommandInterface {
 	protected function build_views(): void {
 		foreach ($this->views as $path => $view) {
 			if ($view->build()) {
-				tell('✔ Successfully build: ' . $view->get('relative_path'));
+				// tell('✔ Successfully build: ' . $view->get('relative_path'));
 				$this->count_view_build_success++;
 			} else {
-				tell('Error: Could not build: ' . $view->get('relative_path'));
+				tell('Warning: Could not build: ' . $view->get('relative_path'));
 				$this->count_view_build_errors++;
 			}
 		}
@@ -213,15 +233,15 @@ class CommandBuild implements CommandInterface {
 		}
 
 		// Print success / errors.
-		echo PHP_EOL;
+		// echo PHP_EOL;
 		if ($this->count_view_build_errors) {
 			if ($this->tell_errors) {
 				foreach ($this->tell_errors as $msg) {
 					tell($msg);
 				}
-				echo PHP_EOL;
+				// echo PHP_EOL;
 			}
-			tell('⚠ Done with ' . $this->count_view_build_errors . ' errors. (in ' . $build_time . ' seconds)');
+			tell('❌ Done with ' . $this->count_view_build_errors . ' errors. (in ' . $build_time . ' seconds)');
 		} else {
 			tell('✔ Done in ' . $build_time . ' seconds. ' . $this->count_view_build_success . ' views build.');
 		}

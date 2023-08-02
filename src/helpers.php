@@ -51,13 +51,12 @@ function rm_dir_content(string $dir): bool {
 		if (is_dir($item)) {
 			rm_dir_content($item);
 
-			$rm_sub_dir = rmdir($item);
-			if (!$rm_sub_dir) {
+			if (!rmdir($item)) {
 				throw new Exception('Could not delete dir: ' . $item);
 			}
 		} else {
-			$unlink = unlink($item);
-			if (!$unlink) {
+			// Is file.
+			if (!unlink($item)) {
 				throw new Exception('Could not delete file: ' . $item);
 			}
 		}

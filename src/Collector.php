@@ -165,7 +165,8 @@ class Collector {
 	}
 
 	// Exclude views
-	public function exclude(PublicView|array $exclude_views) {
+	/** @param array<PublicView> $exclude_views */
+	public function exclude(PublicView|array $exclude_views): self {
 		if (!is_array($exclude_views)) {
 			$exclude_views = [$exclude_views];
 		}

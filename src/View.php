@@ -186,7 +186,6 @@ class View {
 		self::$blade->directive('endmarkdown', function () {
 			// See https://commonmark.thephpleague.com/2.0/configuration/
 			return '<?php
-			// $converter = new \League\CommonMark\CommonMarkConverter([
 			$converter = new \League\CommonMark\GithubFlavoredMarkdownConverter([
 				"html_input" => "allow", // To allow "<br>" tags, etc.
 				"allow_unsafe_links" => false,

@@ -45,14 +45,18 @@ try {
 }
 
 // Load config
-define('CONFIG_DIR', SITE_ROOT_DIR . DIRECTORY_SEPARATOR . 'config');
-Config::load_capro_config();
+define('CONFIG_DIR', SITE_ROOT_DIR . 'config');
+if (is_dir(CONFIG_DIR)) {
+	Config::load_capro_config();
+} else {
+	tell('Notice: Config dir not found: ' . CONFIG_DIR);
+}
 
 // Set CONSTANTS from Config (or use defaults) -- after loading config.
 // Cant use realpath() here because the directories might not exist yet.
 define('PUBLIC_DIR', SITE_ROOT_DIR . Config::get('core.public_dir', 'public'));
 define('VIEWS_DIR', SITE_ROOT_DIR . Config::get('core.views_dir', 'views'));
-define('VIEWS_CACHE_DIR', SITE_ROOT_DIR . Config::get('core.views_cache_dir', 'cache'));
+define('VIEWS_CACHE_DIR', SITE_ROOT_DIR . Config::get('core.views_cache_dir', 'views/cache'));
 define('STATIC_DIR', SITE_ROOT_DIR . Config::get('core.static_dir', 'static'));
 
 // Check if command argument is set.
