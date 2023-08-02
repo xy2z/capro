@@ -48,9 +48,13 @@ class CommandServe implements CommandInterface {
 
 		// Prepare file watcher, to watch for any changes.
 		$this->FileWatcher = new FileWatcher([
+			// Watch dirs
 			VIEWS_DIR,
 			STATIC_DIR,
 			CONFIG_DIR,
+		], [
+			// Exclude paths
+			VIEWS_CACHE_DIR,
 		]);
 
 		while ($this->server->isRunning()) {
