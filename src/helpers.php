@@ -1,6 +1,7 @@
 <?php
 
 use xy2z\Capro\Config;
+use Symfony\Component\Yaml\Yaml;
 
 // Print messages to CLI.
 function tell(string $msg): void {
@@ -110,4 +111,41 @@ function validate_in_capro_dir(): void {
 		tell('Sorry, it doesnt look like you are in a capro directory...');
 		exit;
 	}
+}
+
+/**
+ * Replace YAML placeholders (variables)
+ * Will replace all `${{ ... }}` with the evaluated result of the php code inside.
+ * Can be used for config(), env(), php functions, etc.
+ * Examples:
+ * 		core.disable_build: ${{ env('IS_PRODUCTION') }}
+ * 		data: ${{ json_decode(config('app.data')) }}
+ */
+function replace_yaml_placeholders(string $str) {
+	$finder_pos = 0;
+
+	while ($start = strpos($str, '${{', $finder_pos)) {
+		$end = strpos($str, '}}', $start);
+		// $finder_pos = $end; // this won't work because the $end pos will not be correct after str replace!
+		$finder_pos = $start + 1;
+
+		$str_to_replace = substr($str, $start, $end - $start + 2);
+		$code = substr($str_to_replace, 3, -2);
+		$eval = eval('return ' . $code . ';');
+
+		// It has to be returned as a yaml string.
+		if (is_array($eval)) {
+			tell_error('Arrays are not supported for YAML placeholders yet. Please use json_encode() if needed.');
+			continue;
+		}
+
+		if (is_object($eval)) {
+			tell_error('Objects are not supported for YAML placeholders yet. Please use json_encode() if needed.');
+			continue;
+		}
+
+		$str = str_replace($str_to_replace, Yaml::dump($eval), $str);
+	}
+
+	return $str;
 }

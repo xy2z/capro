@@ -18,7 +18,6 @@ class View {
 	protected string $dir;
 	protected string $relative_path; // needed for cli messages (errors).
 	protected string $basename;
-	protected string $raw_file_content;
 	protected string $label;
 	protected string $save_path; // full path to where the build view file (html) will be saved.
 	protected string $href;
@@ -52,9 +51,26 @@ class View {
 		$this->basename = str_replace('.blade.php', '', basename($this->path));
 		$this->relative_path = str_replace(SITE_ROOT_DIR, '', $this->path);
 
-		$this->raw_file_content = @file_get_contents($this->path) ?: '';
+		$file_content = @file_get_contents($this->path) ?: '';
+
+		if ($file_content) {
+			// Replace YAML placeholders (variables).
+			// Only do replacement on the yaml section.
+			$first = strpos($file_content, '---' . PHP_EOL);
+			$find_yaml_end_string = PHP_EOL . '---' . PHP_EOL;
+			$second = strpos($file_content, $find_yaml_end_string, $first + 3);
+			if (($first !== false) && ($second !== false)) {
+				$yaml_section = substr($file_content, 0, $second + strlen($find_yaml_end_string));
+				$yaml_section = replace_yaml_placeholders($yaml_section);
+
+				// Merge file-content back together with the replaced yaml section.
+				$blade_section = substr($file_content, $second + strlen($find_yaml_end_string));
+				$file_content = $yaml_section . $blade_section;
+			}
+		}
+
 		try {
-			$this->yaml_front_matter = YamlFrontMatter::parse($this->raw_file_content);
+			$this->yaml_front_matter = YamlFrontMatter::parse($file_content);
 		} catch (Throwable $e) {
 			tell('Error: Invalid yaml in ' . $this->relative_path . '. ' . $e->getMessage());
 			exit;
