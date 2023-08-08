@@ -52,12 +52,12 @@ function rm_dir_content(string $dir): bool {
 		if (is_dir($item)) {
 			rm_dir_content($item);
 
-			if (!rmdir($item)) {
-				throw new Exception('Could not delete dir: ' . $item);
+			if (file_exists($item) && !@rmdir($item)) {
+				throw new Exception('Could not delete directory: ' . $item);
 			}
 		} else {
 			// Is file.
-			if (!unlink($item)) {
+			if (file_exists($item) && !@unlink($item)) {
 				throw new Exception('Could not delete file: ' . $item);
 			}
 		}

@@ -165,7 +165,11 @@ class View {
 		// Save the file without the yaml-front-matter in a temp location.
 		// This is needed because Blade cannot make from a string, it needs to be an actual file.
 		// TODO: Refactor when possible.
-		file_put_contents(VIEWS_DIR . '/__tmp.blade.php', $this->yaml_front_matter->body());
+		$saved = file_put_contents(VIEWS_DIR . '/__tmp.blade.php', $this->yaml_front_matter->body());
+
+		if ($saved === false) {
+			throw new Exception('Could not build view.'); // TODO: If this is in CommandServe, just retry in a few microseconds...
+		}
 
 		// Build (make view)
 		$build_content = null;
@@ -212,7 +216,7 @@ class View {
 	}
 
 	protected function save_build_file(string $build_content): bool {
-		$saved = file_put_contents($this->save_path, $build_content);
+		$saved = @file_put_contents($this->save_path, $build_content);
 
 		// file_put_contents() may return a non-Boolean value which evaluates to false.
 		return ($saved === false) ? false : true;

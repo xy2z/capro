@@ -62,6 +62,7 @@ class CommandServe implements CommandInterface {
 
 			if ($this->FileWatcher->is_changed()) {
 				// Changes detected. Start building.
+				usleep(100_000);
 				$this->rebuild();
 			}
 
@@ -121,10 +122,7 @@ class CommandServe implements CommandInterface {
 		$out = ob_get_clean();
 
 		if (!$this->quiet && $out) {
-			// Print only last line ("Done ...")
-			$lines = explode(PHP_EOL, $out);
-			$lastline = $lines[count($lines) - 2];
-			tell('[' . date('H:i:s') . ']' . substr($lastline, 2));
+			echo $out;
 		}
 	}
 }

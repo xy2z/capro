@@ -201,7 +201,8 @@ class CommandBuild implements CommandInterface {
 		}
 
 		// Delete temporary file build.
-		unlink(VIEWS_DIR . '/__tmp.blade.php');
+		$tmp_path = VIEWS_DIR . '/__tmp.blade.php';
+		@unlink($tmp_path);
 	}
 
 	protected function load_view_templates(): void {
