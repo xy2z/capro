@@ -21,7 +21,7 @@ class View {
 	protected string $label;
 	protected string $save_path; // full path to where the build view file (html) will be saved.
 	protected string $href;
-	protected int $type; // True = is page. False = is collection item.
+	protected int $type;
 	protected Document $yaml_front_matter;
 
 	public const TYPE_PAGE = 0;
@@ -141,7 +141,7 @@ class View {
 	}
 
 	/**
-	 * Get property or yaml-front-matter value.
+	 * Get property, or if not set: get the yaml-front-matter value if exists.
 	 */
 	public function get(string $param): mixed {
 		if (isset($this->$param)) {

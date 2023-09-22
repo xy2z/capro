@@ -32,4 +32,16 @@ class PublicView {
 	public function get_all_view_data(): mixed {
 		return $this->view->get_view_data();
 	}
+
+	public function is_page(): bool {
+		return $this->view->get('type') === View::TYPE_PAGE;
+	}
+
+	public function is_collection(string $label = ''): bool {
+		return (($this->view->get('type') === View::TYPE_COLLECTION) && (empty($label) || $this->view->get('label') === $label));
+	}
+
+	public function is_template(): bool {
+		return $this->view->get('type') === View::TYPE_TEMPLATE;
+	}
 }

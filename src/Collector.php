@@ -2,13 +2,10 @@
 
 namespace xy2z\Capro;
 
-use xy2z\Capro\Collector as CaproCollector;
-
-// use xy2z\Capro\Collector as CaproCollector;
-
-// Collector class
-// Is only being used by Capro class, to filter, limit and sort views like Pages and Collections.
-
+/**
+ * Collector class
+ * Is only being used by Capro class, to filter, limit and sort views like Pages and Collections.
+ */
 class Collector {
 	/** @var array<PublicView> */
 	protected array $original_data;
