@@ -15,12 +15,13 @@
     "require": {
         "php": "8.0 - 8.2",
         "jenssegers/blade": "1.4.*",
-        "xy2z/lite-config": "^1.1",
-        "symfony/yaml": "^5.3",
-        "spatie/yaml-front-matter": "^2.0",
-        "league/commonmark": "^2.1",
+        "xy2z/lite-config": "1.*",
+        "symfony/yaml": "5.*",
+        "spatie/yaml-front-matter": "2.*",
+        "league/commonmark": "2.*",
         "statix/server": "^0.4.1",
-        "vlucas/phpdotenv": "^5.5"
+        "vlucas/phpdotenv": "5.*",
+        "symfony/var-dumper": "6.*"
     },
     "autoload": {
         "psr-4": {
@@ -35,8 +36,8 @@
         "capro"
     ],
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.11",
-        "phpstan/phpstan": "^1.7"
+        "friendsofphp/php-cs-fixer": "3.*",
+        "phpstan/phpstan": "1.*"
     },
 	"funding": [
 		{
