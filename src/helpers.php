@@ -121,7 +121,7 @@ function validate_in_capro_dir(): void {
  * 		core.disable_build: ${{ env('IS_PRODUCTION') }}
  * 		data: ${{ json_decode(config('app.data')) }}
  */
-function replace_yaml_placeholders(string $str) {
+function replace_yaml_placeholders(string $str): string {
 	$finder_pos = 0;
 
 	while ($start = strpos($str, '${{', $finder_pos)) {

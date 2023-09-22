@@ -175,8 +175,7 @@ class View {
 		$build_content = null;
 		try {
 			$make = self::$blade->make('__tmp', $this->get_view_data());
-			// $build_content = $make->__toString(); // Do this here so it can throw exceptions.
-			$build_content = strval($make); // Do this here so it can throw exceptions.
+			$build_content = $make->render(); // Do this here so it can throw exceptions.
 		} catch (Throwable $e) {
 			tell_error('Error in ' . $this->relative_path . ': ' . $e->getMessage());
 		}
