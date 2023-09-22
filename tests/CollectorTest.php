@@ -13,10 +13,7 @@ define('VIEWS_DIR', SITE_ROOT_DIR . 'views');
 define('VIEWS_CACHE_DIR', SITE_ROOT_DIR . 'views/cache');
 define('STATIC_DIR', SITE_ROOT_DIR . 'static');
 
-
 class CollectorTest extends TestCase {
-
-
 
 	public function setUp(): void {
 		// ...
