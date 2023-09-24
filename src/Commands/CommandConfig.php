@@ -26,7 +26,7 @@ class CommandConfig implements CommandInterface {
 		if ($this->var_dump) {
 			var_dump($this->get_result());
 		} else {
-			print_r($this->get_result());
+			dump($this->get_result());
 		}
 	}
 
