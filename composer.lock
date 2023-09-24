@@ -2596,19 +2596,20 @@
         },
         {
             "name": "xy2z/lite-config",
-            "version": "1.2.0",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xy2z/LiteConfig.git",
-                "reference": "fde70308d7944381d67aafe4955ba5c127bb6670"
+                "reference": "90454952f1bcfaccc7fadf6fe84dc78a3646a3d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xy2z/LiteConfig/zipball/fde70308d7944381d67aafe4955ba5c127bb6670",
-                "reference": "fde70308d7944381d67aafe4955ba5c127bb6670",
+                "url": "https://api.github.com/repos/xy2z/LiteConfig/zipball/90454952f1bcfaccc7fadf6fe84dc78a3646a3d0",
+                "reference": "90454952f1bcfaccc7fadf6fe84dc78a3646a3d0",
                 "shasum": ""
             },
             "require-dev": {
+                "phpstan/phpstan": "1.*",
                 "phpunit/phpunit": "9.*"
             },
             "type": "library",
@@ -2630,9 +2631,15 @@
             "description": "A lightweight PHP static class with zero dependencies.",
             "support": {
                 "issues": "https://github.com/xy2z/LiteConfig/issues",
-                "source": "https://github.com/xy2z/LiteConfig/tree/1.2.0"
+                "source": "https://github.com/xy2z/LiteConfig/tree/1.2.2"
             },
-            "time": "2023-03-07T20:01:11+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/xy2z",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-09-24T18:22:25+00:00"
         }
     ],
     "packages-dev": [
