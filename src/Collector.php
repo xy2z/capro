@@ -143,7 +143,7 @@ class Collector {
 
 	public function whereHas(string $key): self {
 		foreach ($this->data as $i => $view) {
-			if (is_null($view->$key ?? null)) {
+			if (strlen($view->$key ?? null) === 0) {
 				// Remove from array.
 				unset($this->data[$i]);
 			}
@@ -153,7 +153,7 @@ class Collector {
 
 	public function whereHasNot(string $key): self {
 		foreach ($this->data as $i => $view) {
-			if (!is_null($view->$key ?? null)) {
+			if (!(strlen($view->$key ?? null) === 0)) {
 				// Remove from array.
 				unset($this->data[$i]);
 			}
