@@ -19,11 +19,14 @@ jobs:
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '7.4' # You can adjust the PHP version as needed
+        php-version: '8.1'
         extensions: mbstring, intl
 
     - name: Install dependencies
       run: composer install --no-progress --no-suggest
+
+    - name: Update dependencies (if needed)
+      run: composer update --no-progress --no-suggest
 
     - name: Run PHPStan
       run: vendor/bin/phpstan analyze
