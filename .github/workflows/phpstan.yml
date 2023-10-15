@@ -1,0 +1,33 @@
+name: PHPStan
+
+on:
+  pull_request:
+    branches:
+      - '*'
+  push:
+    branches:
+      - '*'
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: ['8.0', '8.1', '8.2'] # Add or remove PHP versions as needed
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+        extensions: mbstring, intl
+
+    - name: Install dependencies
+      run: composer install --no-progress --no-suggest
+
+    - name: Run PHPStan
+      run: vendor/bin/phpstan analyze
