@@ -49,12 +49,12 @@ class CommandServe implements CommandInterface {
 		// Prepare file watcher, to watch for any changes.
 		$this->FileWatcher = new FileWatcher([
 			// Watch dirs
-			VIEWS_DIR,
-			STATIC_DIR,
-			CONFIG_DIR,
+			CAPRO_VIEWS_DIR,
+			CAPRO_STATIC_DIR,
+			CAPRO_CONFIG_DIR,
 		], [
 			// Exclude paths
-			VIEWS_CACHE_DIR,
+			CAPRO_VIEWS_CACHE_DIR,
 		]);
 
 		while ($this->server->isRunning()) {
@@ -77,10 +77,10 @@ class CommandServe implements CommandInterface {
 		$this->server = Server::new()
 			->host($this->host)
 			->port($this->port)
-			->root(PUBLIC_DIR);
+			->root(CAPRO_PUBLIC_DIR);
 
-		if (file_exists(SITE_ROOT_DIR . '/.env')) {
-			$this->server->withEnvFile(SITE_ROOT_DIR . '/.env');
+		if (file_exists(CAPRO_SITE_ROOT_DIR . '/.env')) {
+			$this->server->withEnvFile(CAPRO_SITE_ROOT_DIR . '/.env');
 		}
 
 		$this->server->runInBackground();

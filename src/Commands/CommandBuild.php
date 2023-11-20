@@ -35,8 +35,8 @@ class CommandBuild implements CommandInterface {
 		validate_in_capro_dir();
 
 		// Validate dirs exists
-		if (!is_dir(VIEWS_DIR)) {
-			tell_error('Views dir not found: ' . VIEWS_DIR);
+		if (!is_dir(CAPRO_VIEWS_DIR)) {
+			tell_error('Views dir not found: ' . CAPRO_VIEWS_DIR);
 		}
 
 		// Start
@@ -58,7 +58,7 @@ class CommandBuild implements CommandInterface {
 	private function rm_public_dir(): void {
 		// Remove all content in the public dir (to keep chmod and chown)
 		try {
-			rm_dir_content(PUBLIC_DIR);
+			rm_dir_content(CAPRO_PUBLIC_DIR);
 		} catch (\Exception $e) {
 			tell_error('Error: ' . $e->getMessage() . ' - is the file/dir open?');
 		}
@@ -67,11 +67,11 @@ class CommandBuild implements CommandInterface {
 
 	private function check_cache_dir(): void {
 		// Make cache dir if not exists.
-		if (!is_dir(VIEWS_CACHE_DIR)) {
-			if (mkdir(VIEWS_CACHE_DIR, 0775, true)) {
-				tell('✔ Created cache dir: ' . realpath(VIEWS_CACHE_DIR));
+		if (!is_dir(CAPRO_VIEWS_CACHE_DIR)) {
+			if (mkdir(CAPRO_VIEWS_CACHE_DIR, 0775, true)) {
+				tell('✔ Created cache dir: ' . realpath(CAPRO_VIEWS_CACHE_DIR));
 			} else {
-				tell_error('Error: Could not create cache dir: ' . VIEWS_CACHE_DIR);
+				tell_error('Error: Could not create cache dir: ' . CAPRO_VIEWS_CACHE_DIR);
 			}
 			return;
 		}
@@ -81,7 +81,7 @@ class CommandBuild implements CommandInterface {
 		// Remove all content in the cache dir.
 		/*
 		try {
-			rm_dir_content(VIEWS_CACHE_DIR);
+			rm_dir_content(CAPRO_VIEWS_CACHE_DIR);
 		} catch (\Exception $e) {
 			tell_error('Error: ' . $e->getMessage() . ' - is the file/dir open?');
 		}
@@ -91,12 +91,12 @@ class CommandBuild implements CommandInterface {
 	}
 
 	private function copy_static_dir_to_public(): void {
-		if (!is_dir(STATIC_DIR)) {
+		if (!is_dir(CAPRO_STATIC_DIR)) {
 			// tell('Notice: Static dir not found: ' . STATIC_DIR); // verbose. (but never for "capro new" commands)
 			return;
 		}
 
-		rcopy(STATIC_DIR, PUBLIC_DIR);
+		rcopy(CAPRO_STATIC_DIR, CAPRO_PUBLIC_DIR);
 		// tell('✔ Copied static content in to public directory.'); // verbose.
 	}
 
@@ -115,7 +115,7 @@ class CommandBuild implements CommandInterface {
 
 	private function load_views(): void {
 		// Load Pages (dont build)
-		$page_dir = VIEWS_DIR . DIRECTORY_SEPARATOR . 'pages'; // No trailing slashes!
+		$page_dir = CAPRO_VIEWS_DIR . DIRECTORY_SEPARATOR . 'pages'; // No trailing slashes!
 		foreach ($this->get_all_pages($page_dir) as $file) {
 			$view = new View(
 				path: $file->path,
@@ -131,7 +131,7 @@ class CommandBuild implements CommandInterface {
 		}
 
 		// Load Collections (dont build)
-		$collections_dir = VIEWS_DIR . DIRECTORY_SEPARATOR . 'collections';
+		$collections_dir = CAPRO_VIEWS_DIR . DIRECTORY_SEPARATOR . 'collections';
 		foreach ($this->get_all_collections_views($collections_dir) as $file) {
 			$view = new View(
 				path: $file->path,
@@ -201,7 +201,7 @@ class CommandBuild implements CommandInterface {
 		}
 
 		// Delete temporary file build.
-		$tmp_path = VIEWS_DIR . '/__tmp.blade.php';
+		$tmp_path = CAPRO_VIEWS_DIR . '/__tmp.blade.php';
 		@unlink($tmp_path);
 	}
 

@@ -17,17 +17,17 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 	// Development (when developing/testing this project),
 	// using `php capro <cmd>`
 	require __DIR__ . '/vendor/autoload.php';
-	define('SITE_ROOT_DIR', __DIR__ . DIRECTORY_SEPARATOR);
+	define('CAPRO_SITE_ROOT_DIR', __DIR__ . DIRECTORY_SEPARATOR);
 }
 
 if (file_exists(__DIR__ . '/../../autoload.php')) {
 	// For sites that is using this using vendor/bin
 	// Also for global installed..
 	require __DIR__ . '/../../autoload.php';
-	define('SITE_ROOT_DIR', __DIR__ . '/../../../'); // go back 3 dirs (/vendor/xy2z/capro/)
+	define('CAPRO_SITE_ROOT_DIR', __DIR__ . '/../../../'); // go back 3 dirs (/vendor/xy2z/capro/)
 }
 
-if (!defined('SITE_ROOT_DIR')) {
+if (!defined('CAPRO_SITE_ROOT_DIR')) {
 	echo 'Error: Composer autoload.php was not found. (try "composer install")' . PHP_EOL;
 	exit(1);
 }
@@ -36,9 +36,9 @@ if (!defined('SITE_ROOT_DIR')) {
 class_alias('xy2z\Capro\Capro', 'Capro');
 
 // Load env (before config)
-if (file_exists(SITE_ROOT_DIR . '.env')) {
+if (file_exists(CAPRO_SITE_ROOT_DIR . '.env')) {
 	// Load .env file
-	$dotenv = Dotenv\Dotenv::createImmutable(SITE_ROOT_DIR);
+	$dotenv = Dotenv\Dotenv::createImmutable(CAPRO_SITE_ROOT_DIR);
 	try {
 		$dotenv->load();
 	} catch (Exception $e) {
@@ -48,19 +48,19 @@ if (file_exists(SITE_ROOT_DIR . '.env')) {
 }
 
 // Load config
-define('CONFIG_DIR', SITE_ROOT_DIR . 'config');
-if (is_dir(CONFIG_DIR)) {
+define('CAPRO_CONFIG_DIR', CAPRO_SITE_ROOT_DIR . 'config');
+if (is_dir(CAPRO_CONFIG_DIR)) {
 	Config::load_capro_config();
 	// } else {
-	// tell('Notice: Config dir not found: ' . CONFIG_DIR); // verbose. (but never for global composer "capro" commands.)
+	// tell('Notice: Config dir not found: ' . CAPRO_CONFIG_DIR); // verbose. (but never for global composer "capro" commands.)
 }
 
 // Set CONSTANTS from Config (or use defaults) -- after loading config.
 // Cant use realpath() here because the directories might not exist yet.
-define('PUBLIC_DIR', SITE_ROOT_DIR . Config::get('core.public_dir', 'public'));
-define('VIEWS_DIR', SITE_ROOT_DIR . Config::get('core.views_dir', 'views'));
-define('VIEWS_CACHE_DIR', SITE_ROOT_DIR . Config::get('core.views_cache_dir', 'views/cache'));
-define('STATIC_DIR', SITE_ROOT_DIR . Config::get('core.static_dir', 'static'));
+define('CAPRO_PUBLIC_DIR', CAPRO_SITE_ROOT_DIR . Config::get('core.public_dir', 'public'));
+define('CAPRO_VIEWS_DIR', CAPRO_SITE_ROOT_DIR . Config::get('core.views_dir', 'views'));
+define('CAPRO_VIEWS_CACHE_DIR', CAPRO_SITE_ROOT_DIR . Config::get('core.views_cache_dir', 'views/cache'));
+define('CAPRO_STATIC_DIR', CAPRO_SITE_ROOT_DIR . Config::get('core.static_dir', 'static'));
 
 // Check if command argument is set.
 $command = $argv[1] ?? null;

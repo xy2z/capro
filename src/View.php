@@ -49,7 +49,7 @@ class View {
 
 		$this->label = $label; // "collection" label.
 		$this->basename = str_replace('.blade.php', '', basename($this->path));
-		$this->relative_path = str_replace(SITE_ROOT_DIR, '', $this->path);
+		$this->relative_path = str_replace(CAPRO_SITE_ROOT_DIR, '', $this->path);
 
 		$file_content = @file_get_contents($this->path) ?: '';
 
@@ -86,9 +86,9 @@ class View {
 		}
 
 		if ($this->type === self::TYPE_PAGE) {
-			$relative_dir = str_replace(VIEWS_DIR . DIRECTORY_SEPARATOR . 'pages', '', $this->dir);
+			$relative_dir = str_replace(CAPRO_VIEWS_DIR . DIRECTORY_SEPARATOR . 'pages', '', $this->dir);
 		} elseif ($this->type === self::TYPE_COLLECTION) {
-			$relative_dir = str_replace(VIEWS_DIR . DIRECTORY_SEPARATOR . 'collections', '', $this->dir);
+			$relative_dir = str_replace(CAPRO_VIEWS_DIR . DIRECTORY_SEPARATOR . 'collections', '', $this->dir);
 		} else {
 			throw new Exception('Unknown View type.');
 		}
@@ -96,23 +96,23 @@ class View {
 		if (!empty($this->get_view_data('core.save_as'))) {
 			$save_as = $this->get_view_data('core.save_as');
 			$this->href = str_replace('\\', '/', $relative_dir) . '/' . $save_as;
-			$this->save_path = PUBLIC_DIR . $relative_dir . DIRECTORY_SEPARATOR . $save_as;
+			$this->save_path = CAPRO_PUBLIC_DIR . $relative_dir . DIRECTORY_SEPARATOR . $save_as;
 			return;
 		}
 
 		if (($this->basename == 'index') && empty($relative_dir)) {
 			// Root index.html
 			$this->href = '/';
-			$this->save_path = PUBLIC_DIR . DIRECTORY_SEPARATOR . 'index.html';
+			$this->save_path = CAPRO_PUBLIC_DIR . DIRECTORY_SEPARATOR . 'index.html';
 		} else {
 			if ($this->basename == 'index') {
 				// Place the file as index.html
 				$this->href = str_replace('\\', '/', $relative_dir) . '/';
-				$this->save_path = PUBLIC_DIR . $relative_dir . DIRECTORY_SEPARATOR . 'index.html';
+				$this->save_path = CAPRO_PUBLIC_DIR . $relative_dir . DIRECTORY_SEPARATOR . 'index.html';
 			} else {
 				// Not "index" file, so make a dir for the basename.
 				$this->href = str_replace('\\', '/', $relative_dir) . '/' . $this->basename . '/';
-				$this->save_path = PUBLIC_DIR . $relative_dir . DIRECTORY_SEPARATOR . $this->basename . DIRECTORY_SEPARATOR . 'index.html';
+				$this->save_path = CAPRO_PUBLIC_DIR . $relative_dir . DIRECTORY_SEPARATOR . $this->basename . DIRECTORY_SEPARATOR . 'index.html';
 			}
 		}
 	}
@@ -165,7 +165,7 @@ class View {
 		// Save the file without the yaml-front-matter in a temp location.
 		// This is needed because Blade cannot make from a string, it needs to be an actual file.
 		// TODO: Refactor when possible.
-		$saved = file_put_contents(VIEWS_DIR . '/__tmp.blade.php', $this->yaml_front_matter->body());
+		$saved = file_put_contents(CAPRO_VIEWS_DIR . '/__tmp.blade.php', $this->yaml_front_matter->body());
 
 		if ($saved === false) {
 			throw new Exception('Could not build view.'); // TODO: If this is in CommandServe, just retry in a few microseconds...
@@ -195,7 +195,7 @@ class View {
 			return;
 		}
 
-		self::$blade = new Blade(VIEWS_DIR, VIEWS_CACHE_DIR);
+		self::$blade = new Blade(CAPRO_VIEWS_DIR, CAPRO_VIEWS_CACHE_DIR);
 		class_alias('xy2z\\Capro\\Config', 'Config');
 
 		self::$blade->directive('markdown', function () {

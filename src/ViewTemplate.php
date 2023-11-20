@@ -45,11 +45,11 @@ class ViewTemplate {
 	/** @param array<mixed> $item */
 	protected function get_public_path(array $item): string {
 		$path = $this->get_item_path($item);
-		return PUBLIC_DIR . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . 'index.html';
+		return CAPRO_PUBLIC_DIR . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . 'index.html';
 	}
 
 	public function load_views(): Generator {
-		$this->template_view_path = VIEWS_DIR . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->template_view . '.blade.php';
+		$this->template_view_path = CAPRO_VIEWS_DIR . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->template_view . '.blade.php';
 
 		if (!file_exists($this->template_view_path)) {
 			tell_error('Error: Template view not found: ' . $this->template_view_path);

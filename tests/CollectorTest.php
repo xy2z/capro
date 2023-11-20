@@ -7,11 +7,11 @@ use xy2z\Capro\Collector;
 use xy2z\Capro\PublicView;
 use xy2z\Capro\View;
 
-define('SITE_ROOT_DIR', __DIR__ . '/../');
-define('PUBLIC_DIR', SITE_ROOT_DIR . 'public');
-define('VIEWS_DIR', SITE_ROOT_DIR . 'views');
-define('VIEWS_CACHE_DIR', SITE_ROOT_DIR . 'views/cache');
-define('STATIC_DIR', SITE_ROOT_DIR . 'static');
+define('CAPRO_SITE_ROOT_DIR', __DIR__ . '/../');
+define('CAPRO_PUBLIC_DIR', CAPRO_SITE_ROOT_DIR . 'public');
+define('CAPRO_VIEWS_DIR', CAPRO_SITE_ROOT_DIR . 'views');
+define('CAPRO_VIEWS_CACHE_DIR', CAPRO_SITE_ROOT_DIR . 'views/cache');
+define('CAPRO_STATIC_DIR', CAPRO_SITE_ROOT_DIR . 'static');
 
 class CollectorTest extends TestCase {
 	public function setUp(): void {
