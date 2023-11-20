@@ -45,5 +45,8 @@
 			"type": "github",
 			"url": "https://github.com/sponsors/xy2z"
 		}
-	]
+	],
+	"scripts": {
+		"build": "php-scoper add-prefix vendor src stubs tests .gitattributes .gitignore CONTRIBUTING.md capro composer.json composer.lock phpstan.neon src\\helpers.php"
+	}
 }
