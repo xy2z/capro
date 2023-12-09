@@ -13,6 +13,6 @@
 desktop.ini
 /.env
 
-
 # (not sure yet, depends if they are split up into separate repos or not)
 /build/
+/demo*
