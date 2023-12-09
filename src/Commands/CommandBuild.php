@@ -9,6 +9,7 @@ use xy2z\Capro\ViewTemplate;
 use xy2z\Capro\Config;
 use xy2z\Capro\Commands\CommandInterface;
 use xy2z\Capro\Commands\CommandServe;
+use xy2z\Capro\Helpers;
 
 /**
  * CommandBuild
@@ -32,15 +33,15 @@ class CommandBuild implements CommandInterface {
 
 	public function run(): void {
 		// Validate before build.
-		validate_in_capro_dir();
+		Helpers::validate_in_capro_dir();
 
 		// Validate dirs exists
 		if (!is_dir(CAPRO_VIEWS_DIR)) {
-			tell_error('Views dir not found: ' . CAPRO_VIEWS_DIR);
+			Helpers::tell_error('Views dir not found: ' . CAPRO_VIEWS_DIR);
 		}
 
 		// Start
-		// tell('Building site...');
+		// Helpers::tell('Building site...');
 		$this->rm_public_dir();
 		$this->check_cache_dir();
 		$this->copy_static_dir_to_public();
@@ -58,20 +59,20 @@ class CommandBuild implements CommandInterface {
 	private function rm_public_dir(): void {
 		// Remove all content in the public dir (to keep chmod and chown)
 		try {
-			rm_dir_content(CAPRO_PUBLIC_DIR);
+			Helpers::rm_dir_content(CAPRO_PUBLIC_DIR);
 		} catch (\Exception $e) {
-			tell_error('Error: ' . $e->getMessage() . ' - is the file/dir open?');
+			Helpers::tell_error('Error: ' . $e->getMessage() . ' - is the file/dir open?');
 		}
-		// tell('✔ Cleared: public dir.');
+		// Helpers::tell('✔ Cleared: public dir.');
 	}
 
 	private function check_cache_dir(): void {
 		// Make cache dir if not exists.
 		if (!is_dir(CAPRO_VIEWS_CACHE_DIR)) {
 			if (mkdir(CAPRO_VIEWS_CACHE_DIR, 0775, true)) {
-				tell('✔ Created cache dir: ' . realpath(CAPRO_VIEWS_CACHE_DIR));
+				Helpers::tell('✔ Created cache dir: ' . realpath(CAPRO_VIEWS_CACHE_DIR));
 			} else {
-				tell_error('Error: Could not create cache dir: ' . CAPRO_VIEWS_CACHE_DIR);
+				Helpers::tell_error('Error: Could not create cache dir: ' . CAPRO_VIEWS_CACHE_DIR);
 			}
 			return;
 		}
@@ -81,23 +82,23 @@ class CommandBuild implements CommandInterface {
 		// Remove all content in the cache dir.
 		/*
 		try {
-			rm_dir_content(CAPRO_VIEWS_CACHE_DIR);
+			Helpers::rm_dir_content(CAPRO_VIEWS_CACHE_DIR);
 		} catch (\Exception $e) {
-			tell_error('Error: ' . $e->getMessage() . ' - is the file/dir open?');
+			Helpers::tell_error('Error: ' . $e->getMessage() . ' - is the file/dir open?');
 		}
-		tell('✔ Cleared: cache dir.');
+		Helpers::tell('✔ Cleared: cache dir.');
 		*/
 		// ---------------
 	}
 
 	private function copy_static_dir_to_public(): void {
 		if (!is_dir(CAPRO_STATIC_DIR)) {
-			// tell('Notice: Static dir not found: ' . STATIC_DIR); // verbose. (but never for "capro new" commands)
+			// Helpers::tell('Notice: Static dir not found: ' . STATIC_DIR); // verbose. (but never for "capro new" commands)
 			return;
 		}
 
-		rcopy(CAPRO_STATIC_DIR, CAPRO_PUBLIC_DIR);
-		// tell('✔ Copied static content in to public directory.'); // verbose.
+		Helpers::rcopy(CAPRO_STATIC_DIR, CAPRO_PUBLIC_DIR);
+		// Helpers::tell('✔ Copied static content in to public directory.'); // verbose.
 	}
 
 	private static function is_filename_ignored(string $filename): bool {
@@ -123,7 +124,7 @@ class CommandBuild implements CommandInterface {
 			);
 
 			if ($view->is_build_disabled()) {
-				tell('Build disabled for: ' . $view->get('relative_path'));
+				Helpers::tell('Build disabled for: ' . $view->get('relative_path'));
 				continue;
 			}
 
@@ -140,7 +141,7 @@ class CommandBuild implements CommandInterface {
 			);
 
 			if ($view->is_build_disabled()) {
-				tell('Build disabled for: ' . $view->get('relative_path'));
+				Helpers::tell('Build disabled for: ' . $view->get('relative_path'));
 				continue;
 			}
 
@@ -192,10 +193,10 @@ class CommandBuild implements CommandInterface {
 	protected function build_views(): void {
 		foreach ($this->views as $path => $view) {
 			if ($view->build()) {
-				// tell('✔ Successfully build: ' . $view->get('relative_path'));
+				// Helpers::tell('✔ Successfully build: ' . $view->get('relative_path'));
 				$this->count_view_build_success++;
 			} else {
-				tell('Warning: Could not build: ' . $view->get('relative_path'));
+				Helpers::tell('Warning: Could not build: ' . $view->get('relative_path'));
 				$this->count_view_build_errors++;
 			}
 		}
@@ -238,13 +239,13 @@ class CommandBuild implements CommandInterface {
 		if ($this->count_view_build_errors) {
 			if ($this->tell_errors) {
 				foreach ($this->tell_errors as $msg) {
-					tell($msg);
+					Helpers::tell($msg);
 				}
 				// echo PHP_EOL;
 			}
-			tell('❌ Done with ' . $this->count_view_build_errors . ' errors. (in ' . $build_time . ' seconds)');
+			Helpers::tell('❌ Done with ' . $this->count_view_build_errors . ' errors. (in ' . $build_time . ' seconds)');
 		} else {
-			tell('✔ Done in ' . $build_time . ' seconds. ' . $this->count_view_build_success . ' views build.');
+			Helpers::tell('✔ Done in ' . $build_time . ' seconds. ' . $this->count_view_build_success . ' views build.');
 		}
 	}
 

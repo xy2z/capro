@@ -6,6 +6,7 @@ use xy2z\Capro\Config;
 use Statix\Server\Server;
 use xy2z\Capro\Commands\CommandBuild;
 use xy2z\Capro\FileWatcher;
+use xy2z\Capro\Helpers;
 
 /**
  * CommandServe
@@ -24,8 +25,8 @@ class CommandServe implements CommandInterface {
 	/** @param array<string> $argv */
 	public function __construct(array $argv) {
 		$this->argv = $argv;
-		$this->host = config('core.serve_host', '127.0.0.1');
-		$this->port = config('core.serve_port', '82');
+		$this->host = Helpers::config('core.serve_host', '127.0.0.1');
+		$this->port = Helpers::config('core.serve_port', '82');
 
 		// Quiet mode?
 		if (in_array('-q', $this->argv) || in_array('--quiet', $this->argv)) {
@@ -37,10 +38,10 @@ class CommandServe implements CommandInterface {
 	 * Run the "serve" command.
 	 */
 	public function run(): void {
-		validate_in_capro_dir();
+		Helpers::validate_in_capro_dir();
 
 		if ($this->is_port_busy()) {
-			tell('Error: Port ' .  $this->port . ' is busy.');
+			Helpers::tell('Error: Port ' .  $this->port . ' is busy.');
 			return;
 		}
 
@@ -85,7 +86,7 @@ class CommandServe implements CommandInterface {
 
 		$this->server->runInBackground();
 		if (!$this->quiet) {
-			tell('Capro development server started at ' . $this->server->getAddress());
+			Helpers::tell('Capro development server started at ' . $this->server->getAddress());
 		}
 	}
 

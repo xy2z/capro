@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "php": "8.0 - 8.2",
+        "php": "8.*",
         "jenssegers/blade": "1.4.*",
         "xy2z/lite-config": "1.*",
         "symfony/yaml": "5.*",
@@ -23,23 +23,20 @@
         "vlucas/phpdotenv": "5.*",
         "symfony/var-dumper": "6.*"
     },
-    "autoload": {
-        "psr-4": {
-            "xy2z\\Capro\\": "src/",
-            "xy2z\\Capro\\Commands\\": "src/Commands"
-        },
-		"files": [
-			"src/helpers.php"
-		]
-    },
-    "bin": [
-        "capro"
-    ],
-    "require-dev": {
+	"require-dev": {
         "friendsofphp/php-cs-fixer": "3.15.*",
         "phpstan/phpstan": "1.*",
         "phpunit/phpunit": "9.*"
     },
+    "autoload": {
+        "psr-4": {
+            "xy2z\\Capro\\": "src/",
+            "xy2z\\Capro\\Commands\\": "src/Commands"
+        }
+    },
+    "bin": [
+        "capro"
+    ],
 	"funding": [
 		{
 			"type": "github",
@@ -47,6 +44,6 @@
 		}
 	],
 	"scripts": {
-		"build": "php-scoper add-prefix vendor src stubs tests .gitattributes .gitignore CONTRIBUTING.md capro composer.json composer.lock phpstan.neon src\\helpers.php"
+		"build": "sh build.sh"
 	}
 }

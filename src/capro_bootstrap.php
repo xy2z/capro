@@ -1,10 +1,10 @@
 <?php
 
 define('CAPRO_START_TIME', microtime(true));
-define('CAPRO_VERSION', '1.0.0-alpha.32');
+define('CAPRO_VERSION', '1.0.0-alpha.33');
 
 /**
- * is_global_bin()
+ * capro_is_global_bin()
  *
  * Used for checking if user ran "capro" or "vendor/bin/capro" in a project, to determine
  * if this is the global composer package (capro) or is a project package (vendor/bin/capro)
@@ -13,7 +13,7 @@ define('CAPRO_VERSION', '1.0.0-alpha.32');
  * If we are in that directory, then it is the global binary.
  * However, this wouldn't work if COMPOSER is not installed in PATH or set as alias.
  */
-function is_global_bin(string $dir): bool {
+function capro_is_global_bin(string $dir): bool {
 	// Must start with ".capro-cache" as it is in the .gitignore.
 	$is_global_filename = '/.capro-cache-is-global-package';
 	$not_global_filename = '/.capro-cache-local';
@@ -83,7 +83,7 @@ if (file_exists(getcwd() . '/vendor/bin/capro')) {
 	$dir_bin_path = realpath(getcwd() . '/vendor/bin/capro');
 	if ($project_bin_path === $dir_bin_path) {
 		// Always continue. NEVER call any other script, or else it will loop endlessly.
-	} elseif (is_global_bin(__DIR__)) {
+	} elseif (capro_is_global_bin(__DIR__)) {
 		// Only pass if this is the global binary, or else it would not be possible to call other projects binary files
 		// if you are in Project-A and call `path/to/project-B/vendor/bin/capro` it would still pass it back to the
 		// Project-A - and we do not want that.

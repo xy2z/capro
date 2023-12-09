@@ -1,19 +1,27 @@
 #!/usr/bin/env php
 <?php
 
+namespace xy2z\Capro;
+
 // Start Timer
 use xy2z\Capro\Commands\CommandBuild;
 use xy2z\Capro\Commands\CommandNewSite;
 use xy2z\Capro\Commands\CommandConfig;
 use xy2z\Capro\Commands\CommandServe;
 use xy2z\Capro\Config;
+use xy2z\Capro\Helpers;
+use Dotenv\Dotenv;
 
 // Call bootstrap to check if we should use capro shortcut for vendor/bin/capro.
 require __DIR__ . '/src/capro_bootstrap.php';
 
 // Prepare
-// Check if we are in a project dir
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+// Check if we are in a build dir (scoped build dir)
+if (file_exists(__DIR__ . '/vendor/scoper-autoload.php')) {
+	require __DIR__ . '/vendor/scoper-autoload.php';
+	define('CAPRO_SITE_ROOT_DIR', __DIR__ . DIRECTORY_SEPARATOR);
+} elseif (file_exists(__DIR__ . '/vendor/autoload.php')) {
+	// Check if we are in a development dir (the one that builds the scoped build dir)
 	// Development (when developing/testing this project),
 	// using `php capro <cmd>`
 	require __DIR__ . '/vendor/autoload.php';
@@ -32,18 +40,14 @@ if (!defined('CAPRO_SITE_ROOT_DIR')) {
 	exit(1);
 }
 
-// This is required to make the classes available in the Blade views.
-class_alias('xy2z\Capro\Capro', 'Capro');
-
 // Load env (before config)
 if (file_exists(CAPRO_SITE_ROOT_DIR . '.env')) {
-	// Load .env file
-	$dotenv = Dotenv\Dotenv::createImmutable(CAPRO_SITE_ROOT_DIR);
+	$dotenv = Dotenv::createImmutable(CAPRO_SITE_ROOT_DIR);
 	try {
 		$dotenv->load();
-	} catch (Exception $e) {
+	} catch (\Exception $e) {
 		// Do nothing
-		tell_error('Invalid .env file. Error message: ' . $e->getMessage());
+		Helpers::tell_error('Invalid .env file. Error message: ' . $e->getMessage());
 	}
 }
 
@@ -52,7 +56,7 @@ define('CAPRO_CONFIG_DIR', CAPRO_SITE_ROOT_DIR . 'config');
 if (is_dir(CAPRO_CONFIG_DIR)) {
 	Config::load_capro_config();
 	// } else {
-	// tell('Notice: Config dir not found: ' . CAPRO_CONFIG_DIR); // verbose. (but never for global composer "capro" commands.)
+	// Helpers::tell('Notice: Config dir not found: ' . CAPRO_CONFIG_DIR); // verbose. (but never for global composer "capro" commands.)
 }
 
 // Set CONSTANTS from Config (or use defaults) -- after loading config.
@@ -67,7 +71,7 @@ $command = $argv[1] ?? null;
 if (isset($command)) {
 	$command = strtolower($command);
 } else {
-	tell('Need a command.');
+	Helpers::tell('Need a command.');
 	exit;
 }
 
@@ -77,7 +81,7 @@ match ($command) {
 	'new' => (new CommandNewSite($argv))->run(),
 	'config' => (new CommandConfig($argv))->run(),
 	'serve' => (new CommandServe($argv))->run(),
-	'where' => tell(__DIR__),
-	'-v', 'v', '--version', 'version' => tell(CAPRO_VERSION),
-	default => tell('Unknown command.'),
+	'where' => Helpers::tell(__DIR__),
+	'-v', 'v', '--version', 'version' => Helpers::tell(CAPRO_VERSION),
+	default => Helpers::tell('Unknown command.'),
 };

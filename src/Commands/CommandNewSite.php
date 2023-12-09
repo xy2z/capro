@@ -2,6 +2,8 @@
 
 namespace xy2z\Capro\Commands;
 
+use xy2z\Capro\Helpers;
+
 /**
  * CommandNewSite
  *
@@ -13,7 +15,7 @@ class CommandNewSite implements CommandInterface {
 	/** @param array<string> $argv */
 	public function __construct(array $argv) {
 		if (!isset($argv[2])) {
-			tell('Error: Need a sitename. "capro new [sitename]');
+			Helpers::tell('Error: Need a sitename. "capro new [sitename]');
 			exit;
 		}
 
@@ -24,21 +26,21 @@ class CommandNewSite implements CommandInterface {
 		// Create new capro site using stubs, setup git and composer, etc.
 		// Make sure to have as much as possible in the "stubs" dir - and only run commands here.
 
-		tell('Creating new site: ' . $this->site_name);
+		Helpers::tell('Creating new site: ' . $this->site_name);
 
 		if (is_dir($this->site_name)) {
 			// Directory exists.
-			tell('Error: The directory "' . $this->site_name . '" already exists.');
-			if (!confirm('The directory already exists, are you sure you want to possibly overwrite files? [Y to continue]')) {
+			Helpers::tell('Error: The directory "' . $this->site_name . '" already exists.');
+			if (!Helpers::confirm('The directory already exists, are you sure you want to possibly overwrite files? [Y to continue]')) {
 				exit;
 			}
 		} else {
 			mkdir($this->site_name);
 		}
 
-		rcopy(__DIR__ . '/../../stubs/new-site/', $this->site_name);
+		Helpers::rcopy(__DIR__ . '/../../stubs/new-site/', $this->site_name);
 		chdir($this->site_name);
-		passthru('composer install');
+		passthru('composer install --no-dev'); // TEST "--no-dev"
 		echo PHP_EOL;
 
 		// Bulild the new site.
@@ -47,7 +49,7 @@ class CommandNewSite implements CommandInterface {
 		ob_get_clean();
 
 		$time = number_format(microtime(true) - CAPRO_START_TIME, 2);
-		tell('✔ Done in ' . $time . ' seconds. Your new site has been setup and build!');
-		tell('Run `php -S localhost:8000` in the ' . $this->site_name . '/public directory to see your site.');
+		Helpers::tell('✔ Done in ' . $time . ' seconds. Your new site has been setup and build!');
+		Helpers::tell('Run `php -S localhost:8000` in the ' . $this->site_name . '/public directory to see your site.');
 	}
 }

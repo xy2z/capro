@@ -52,7 +52,7 @@ class ViewTemplate {
 		$this->template_view_path = CAPRO_VIEWS_DIR . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->template_view . '.blade.php';
 
 		if (!file_exists($this->template_view_path)) {
-			tell_error('Error: Template view not found: ' . $this->template_view_path);
+			Helpers::tell_error('Error: Template view not found: ' . $this->template_view_path);
 		}
 
 		// Make a View for each row in $items.

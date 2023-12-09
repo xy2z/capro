@@ -10,6 +10,7 @@ use Exception;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 use Jenssegers\Blade\Blade;
 use xy2z\Capro\PublicView;
+use xy2z\Capro\Helpers;
 use Spatie\YamlFrontMatter\Document;
 use Throwable;
 
@@ -61,7 +62,7 @@ class View {
 			$second = strpos($file_content, $find_yaml_end_string, $first + 3);
 			if (($first !== false) && ($second !== false)) {
 				$yaml_section = substr($file_content, 0, $second + strlen($find_yaml_end_string));
-				$yaml_section = replace_yaml_placeholders($yaml_section);
+				$yaml_section = Helpers::replace_yaml_placeholders($yaml_section);
 
 				// Merge file-content back together with the replaced yaml section.
 				$blade_section = substr($file_content, $second + strlen($find_yaml_end_string));
@@ -72,7 +73,7 @@ class View {
 		try {
 			$this->yaml_front_matter = YamlFrontMatter::parse($file_content);
 		} catch (Throwable $e) {
-			tell('Error: Invalid yaml in ' . $this->relative_path . '. ' . $e->getMessage());
+			Helpers::tell('Error: Invalid yaml in ' . $this->relative_path . '. ' . $e->getMessage());
 			exit;
 		}
 
@@ -165,7 +166,7 @@ class View {
 		// Save the file without the yaml-front-matter in a temp location.
 		// This is needed because Blade cannot make from a string, it needs to be an actual file.
 		// TODO: Refactor when possible.
-		$saved = file_put_contents(CAPRO_VIEWS_DIR . '/__tmp.blade.php', $this->yaml_front_matter->body());
+		$saved = file_put_contents(CAPRO_VIEWS_DIR . '/__tmp.blade.php', self::get_blade_helpers() . PHP_EOL . $this->yaml_front_matter->body());
 
 		if ($saved === false) {
 			throw new Exception('Could not build view.'); // TODO: If this is in CommandServe, just retry in a few microseconds...
@@ -177,7 +178,7 @@ class View {
 			$make = self::$blade->make('__tmp', $this->get_view_data());
 			$build_content = $make->render(); // Do this here so it can throw exceptions.
 		} catch (Throwable $e) {
-			tell_error('Error in ' . $this->relative_path . ': ' . $e->getMessage());
+			Helpers::tell_error('Error in ' . $this->relative_path . ': ' . $e->getMessage());
 		}
 
 		if (is_null($build_content)) {
@@ -189,6 +190,10 @@ class View {
 		return $this->save_build_file($build_content);
 	}
 
+	protected static function get_blade_helpers(): string {
+		return "@php (require_once(CAPRO_SITE_ROOT_DIR . 'src/blade_helpers.php'))";
+	}
+
 	protected static function load_blade(): void {
 		if (isset(self::$blade)) {
 			// Blade is already loaded.
@@ -196,8 +201,8 @@ class View {
 		}
 
 		self::$blade = new Blade(CAPRO_VIEWS_DIR, CAPRO_VIEWS_CACHE_DIR);
-		class_alias('xy2z\\Capro\\Config', 'Config');
 
+		// Markdown directive
 		self::$blade->directive('markdown', function () {
 			return '<?php ob_start(); ?>';
 		});
