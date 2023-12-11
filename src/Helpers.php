@@ -134,6 +134,7 @@ abstract class Helpers {
 
 			$str_to_replace = substr($str, $start, $end - $start + 2);
 			$code = substr($str_to_replace, 3, -2);
+			// TODO: Try to just require blade_hlelpers.php in the eval, just like for blade files, so it's all using the same classes/functions.
 			$eval = eval('
 				use xy2z\Capro\Config;
 				use xy2z\Capro\Capro;

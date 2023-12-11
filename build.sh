@@ -1,5 +1,15 @@
 #!/bin/bash
 
+
+# ==================================================================
+# ==================================================================
+# Deprecated in this branch: Use "box compile" instead.
+# This build.sh script is for "php-scoper" only, which works - but is on the "php-scoper" branch.
+# ==================================================================
+# ==================================================================
+echo 'Use box instead for now.'
+exit;
+
 # Build php-scoper into /build directory.
 # old 'composer build' command: "php-scoper add-prefix vendor src stubs tests .gitattributes .gitignore CONTRIBUTING.md capro composer.json composer.lock src\\helpers.php"
 

@@ -1,0 +1,25 @@
+{
+	"chmod": "0755",
+	"main": "capro",
+	"output": "build/capro.phar",
+
+	"exclude-composer-files": false,
+	"files": [
+		"stubs/new-site/.gitignore"
+	],
+
+	"directories": [
+		"src",
+		"stubs"
+	],
+	"finder": [
+		{
+			"name": "*.php",
+
+			"exclude": ["test", "tests"],
+			"in": "vendor"
+
+
+		 }
+	]
+}
