@@ -53,12 +53,13 @@ class View {
 		$this->relative_path = str_replace(CAPRO_SITE_ROOT_DIR, '', $this->path);
 
 		$file_content = @file_get_contents($this->path) ?: '';
+		Helpers::fix_linebreaks($file_content);
 
 		if ($file_content) {
 			// Replace YAML placeholders (variables).
 			// Only do replacement on the yaml section.
-			$first = strpos($file_content, '---' . PHP_EOL);
-			$find_yaml_end_string = PHP_EOL . '---' . PHP_EOL;
+			$first = strpos($file_content, '---' . "\n");
+			$find_yaml_end_string = "\n" . '---' . "\n";
 			$second = strpos($file_content, $find_yaml_end_string, $first + 3);
 			if (($first !== false) && ($second !== false)) {
 				$yaml_section = substr($file_content, 0, $second + strlen($find_yaml_end_string));
@@ -166,7 +167,7 @@ class View {
 		// Save the file without the yaml-front-matter in a temp location.
 		// This is needed because Blade cannot make from a string, it needs to be an actual file.
 		// TODO: Refactor when possible.
-		$saved = file_put_contents(CAPRO_VIEWS_DIR . '/__tmp.blade.php', self::get_blade_helpers() . PHP_EOL . $this->yaml_front_matter->body());
+		$saved = file_put_contents(CAPRO_VIEWS_DIR . '/__tmp.blade.php', self::get_blade_helpers() . "\n" . $this->yaml_front_matter->body());
 
 		if ($saved === false) {
 			throw new Exception('Could not build view.'); // TODO: If this is in CommandServe, just retry in a few microseconds...

@@ -48,5 +48,5 @@ return [
 	// [ Exposes ]
 	// 'expose-global-functions' => true, // test for '\Illuminate\View\tap()' - No don't, because this will overwrite the 'config()' function, and probably others. Only expose the functions that are needed (that break the code if not exposed)
 	// Laravel Illuminate functions
-	'expose-functions' => ['tap', 'collect', 'data_get', 'last', 'e', 'env'],
+	'expose-functions' => ['tap', 'collect', 'data_get', 'last', 'e', 'env', 'value'],
 ];

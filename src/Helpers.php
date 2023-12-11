@@ -138,7 +138,6 @@ abstract class Helpers {
 			$eval = eval('
 				use xy2z\Capro\Config;
 				use xy2z\Capro\Capro;
-				// use xy2z\Capro\Helpers;
 				if (!function_exists("config")) {
 					function config($key, $default = null) {
 						return Config::get($key, $default);
@@ -149,11 +148,13 @@ abstract class Helpers {
 
 			// It has to be returned as a yaml string.
 			if (is_array($eval)) {
+				// TODO: Consider just making this json_encoded as default, instead of sending an error... (and then maybe show it as NOTICE?)
 				self::tell_error('Arrays are not supported for YAML placeholders yet. Please use json_encode() if needed.');
 				continue;
 			}
 
 			if (is_object($eval)) {
+				// TODO: Consider just making this json_encoded as default, instead of sending an error... (and then maybe show it as NOTICE?)
 				self::tell_error('Objects are not supported for YAML placeholders yet. Please use json_encode() if needed.');
 				continue;
 			}
@@ -162,5 +163,19 @@ abstract class Helpers {
 		}
 
 		return $str;
+	}
+
+	/**
+	 * Fix Linebreaks, so we only use "\n" as linebreaks
+	 * So it's easier to do string comparisons.
+	 *
+	 * @param string $str
+	 * @return void
+	 */
+	public static function fix_linebreaks(string &$str): void {
+		// $str is global, for performance.
+		// also see https://www.sttmedia.com/newline
+		$str = str_replace("\r\n", "\n", $str); // windows
+		$str = str_replace("\r", "\n", $str); // mac os 9 and older
 	}
 }
