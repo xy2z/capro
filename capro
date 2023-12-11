@@ -15,30 +15,56 @@ use Dotenv\Dotenv;
 // Call bootstrap to check if we should use capro shortcut for vendor/bin/capro.
 require __DIR__ . '/src/capro_bootstrap.php';
 
-// Prepare
+// =================================
+// Autoload dev/phar autoload.php (for box/phar and development of capro)
+/* if (file_exists(__DIR__ . '/vendor/scoper-autoload.php')) {
+	// DEPRECATED! Box uses the normal "autoload.php" so this is not needed anyways.
+	echo ' > SCOPER autoload: ' . __DIR__ . '/vendor/scoper-autoload.php' . PHP_EOL;
+	require __DIR__ . '/vendor/scoper-autoload.php';
+} else */ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+	echo ' > autoload: ' . __DIR__ . '/vendor/autoload.php' . PHP_EOL;
+	require __DIR__ . '/vendor/autoload.php';
+} else {
+	echo 'Error: Composer\'s vendor/autoload.php file was not found. (try `composer install`)' . PHP_EOL;
+	exit(1);
+}
+define('CAPRO_SITE_ROOT_DIR', getcwd() . DIRECTORY_SEPARATOR); // TODO: This will change depending on where the user is!?
+// =================================
+
+// =================================
+// Old prepare:
 // Check if we are in a build dir (scoped build dir)
-if (file_exists(__DIR__ . '/vendor/scoper-autoload.php')) {
+/*if (file_exists(__DIR__ . '/vendor/scoper-autoload.php')) {
+	// This is deprecated since we're using Box.
 	require __DIR__ . '/vendor/scoper-autoload.php';
 	define('CAPRO_SITE_ROOT_DIR', __DIR__ . DIRECTORY_SEPARATOR);
-} elseif (file_exists(__DIR__ . '/vendor/autoload.php')) {
+} else*/ /* if (file_exists(getcwd() . '/vendor/autoload.php')) {
 	// Check if we are in a development dir (the one that builds the scoped build dir)
 	// Development (when developing/testing this project),
 	// using `php capro <cmd>`
-	require __DIR__ . '/vendor/autoload.php';
-	define('CAPRO_SITE_ROOT_DIR', __DIR__ . DIRECTORY_SEPARATOR);
+	echo ' > autoload: ' . getcwd() . '/vendor/autoload.php' . PHP_EOL;
+	require getcwd() . '/vendor/autoload.php';
+	define('CAPRO_SITE_ROOT_DIR', getcwd() . DIRECTORY_SEPARATOR);
 }
 
-if (file_exists(__DIR__ . '/../../autoload.php')) {
+if (file_exists(getcwd() . '/../../autoload.php')) {
 	// For sites that is using this using vendor/bin
 	// Also for global installed..
-	require __DIR__ . '/../../autoload.php';
-	define('CAPRO_SITE_ROOT_DIR', __DIR__ . '/../../../'); // go back 3 dirs (/vendor/xy2z/capro/)
+	echo ' > autoload: ' . getcwd() . '/../../autoload.php' . PHP_EOL;
+	require getcwd() . '/../../autoload.php';
+	define('CAPRO_SITE_ROOT_DIR', getcwd() . '/../../../'); // go back 3 dirs (/vendor/xy2z/capro/)
 }
+*/
+// =================================
 
-if (!defined('CAPRO_SITE_ROOT_DIR')) {
-	echo 'Error: Composer autoload.php was not found. (try "composer install")' . PHP_EOL;
-	exit(1);
-}
+// echo '__DIR__: ' . __DIR__ . PHP_EOL;
+// echo 'getcwd: ' . getcwd() . PHP_EOL;
+echo 'CAPRO_SITE_ROOT_DIR: ' . CAPRO_SITE_ROOT_DIR . PHP_EOL;
+
+// if (!defined('CAPRO_SITE_ROOT_DIR')) {
+// 	echo 'Error: Composer autoload.php was not found. (try "composer install")' . PHP_EOL;
+// 	exit(1);
+// }
 
 // Load env (before config)
 if (file_exists(CAPRO_SITE_ROOT_DIR . '.env')) {

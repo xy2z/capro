@@ -5,21 +5,22 @@
 
 	"exclude-composer-files": false,
 	"files": [
+		"capro",
+		"composer.json",
+		".gitattributes",
+		".gitignore",
 		"stubs/new-site/.gitignore"
 	],
 
 	"directories": [
 		"src",
-		"stubs"
+		"stubs",
+		"vendor",
+		"tests"
 	],
-	"finder": [
-		{
-			"name": "*.php",
 
-			"exclude": ["test", "tests"],
-			"in": "vendor"
-
-
-		 }
+	"compactors": [
+		"KevinGH\\Box\\Compactor\\PhpScoper"
 	]
+
 }

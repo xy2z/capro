@@ -17,15 +17,28 @@ Issues for later:
 
 return [
 
+	// Finders is not needed anymore, since Box is adding the files needed in "box.json.dist"
+	// php-scoper add-prefix tests src stubs .gitattributes .gitignore capro vendor composer.json --force || exit
+	// 'finders' => [
+	// 	Finder::create()->files()->in('src'),
+	// 	Finder::create()->files()->in('tests'),
+	// 	Finder::create()->files()->in('stubs'),
+	// 	// Finder::create()->files()->in('vendor'),
+	// 	Finder::create()->append([
+	// 		'.gitattributes',
+	// 		'.gitignore',
+	// 		'capro',
+	// 		'composer.json',
+	// 		// 'composer.lock', // ??
+	// 	])
+	// ],
+
 	// [ Excludes ]
 	'exclude-namespaces' => [
 		// 'xy2z', // doesn't work for some reason, for LiteConfig (neither does empty array...)
 		'xy2z\Capro',
 	],
 	'exclude-files' => [
-		// 'capro',
-		// 'src/capro_bootstrap.php',
-		// 'src/helpers.php'
 		'src/blade_helpers.php',
 	],
 	'exclude-classes' => [],
@@ -34,7 +47,6 @@ return [
 
 	// [ Exposes ]
 	// 'expose-global-functions' => true, // test for '\Illuminate\View\tap()' - No don't, because this will overwrite the 'config()' function, and probably others. Only expose the functions that are needed (that break the code if not exposed)
-	// 'expose-functions' => ['PHPUnit\execute_tests', '/regex/'],
 	// Laravel Illuminate functions
-	'expose-functions' => ['tap', 'collect', 'data_get', 'last', 'e'],
+	'expose-functions' => ['tap', 'collect', 'data_get', 'last', 'e', 'env'],
 ];
