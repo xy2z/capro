@@ -8,16 +8,16 @@ composer install --no-dev --prefer-dist --no-interaction --no-progress --no-scri
 
 # Compile to phar file
 # see `box.json.dist` for configuration
-box compile --debug || exit
-
-
+box compile || exit
+# box compile --debug || exit
 
 # Do some simple testing
-cd .box_dump || exit
-php capro --version || exit
-php capro -v || exit
-php capro where || exit
-php capro config || exit
+cd build || exit
+php capro.phar --version || exit
+php capro.phar -v || exit
+php capro.phar where || exit
+php capro.phar config || exit
 
 echo ""
-echo "Build done! Dump of phar filed saved to .box_dump/"
+echo "Build done!"
+# echo "Build done! Dump of phar filed saved to .box_dump/"

@@ -13,6 +13,10 @@ use xy2z\Capro\Helpers;
 use Dotenv\Dotenv;
 
 // Call bootstrap to check if we should use capro shortcut for vendor/bin/capro.
+define('CAPRO_START_TIME', microtime(true));
+define('CAPRO_DIR', __DIR__);
+define('CAPRO_SITE_ROOT_DIR', getcwd() . DIRECTORY_SEPARATOR); // TODO: This will change depending on where the user is!?
+define('CAPRO_PHAR_SCOPE', ''); // Constant be replaced in the phar build with the unique scope. (see scoper.inc.php patchers)
 require __DIR__ . '/src/capro_bootstrap.php';
 
 // =================================
@@ -27,7 +31,7 @@ require __DIR__ . '/src/capro_bootstrap.php';
 	echo 'Error: Composer\'s vendor/autoload.php file was not found. (try `composer install`)' . PHP_EOL;
 	exit(1);
 }
-define('CAPRO_SITE_ROOT_DIR', getcwd() . DIRECTORY_SEPARATOR); // TODO: This will change depending on where the user is!?
+
 // =================================
 
 // =================================

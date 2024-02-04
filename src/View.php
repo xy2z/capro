@@ -192,7 +192,9 @@ class View {
 	}
 
 	protected static function get_blade_helpers(): string {
-		return "@php (require_once(CAPRO_SITE_ROOT_DIR . 'src/blade_helpers.php'))";
+		// return "@php (require_once(CAPRO_SITE_ROOT_DIR . 'src/blade_helpers.php'))";
+		// Use CAPRO_DIR so it uses the Phar "dir" when using the phar.
+		return "@php (require_once('" . CAPRO_DIR . "/src/blade_helpers.php'))";
 	}
 
 	protected static function load_blade(): void {
@@ -211,7 +213,7 @@ class View {
 		self::$blade->directive('endmarkdown', function () {
 			// See https://commonmark.thephpleague.com/2.0/configuration/
 			return '<?php
-			$converter = new \League\CommonMark\GithubFlavoredMarkdownConverter([
+			$converter = new ' . CAPRO_PHAR_SCOPE .  '\League\CommonMark\GithubFlavoredMarkdownConverter([
 				"html_input" => "allow", // To allow "<br>" tags, etc.
 				"allow_unsafe_links" => false,
 			]);

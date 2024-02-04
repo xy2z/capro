@@ -35,7 +35,13 @@ class CommandNewSite implements CommandInterface {
 				exit;
 			}
 		} else {
-			mkdir($this->site_name);
+			$mkdir = mkdir($this->site_name);
+			if ($mkdir) {
+				Helpers::tell('[DEBUG] Successfully created new dir: ' . $this->site_name);
+			} else {
+				Helpers::tell_error('Could not create new dir: ' . $this->site_name);
+				exit(1);
+			}
 		}
 
 		Helpers::rcopy(__DIR__ . '/../../stubs/new-site/', $this->site_name);

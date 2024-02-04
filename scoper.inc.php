@@ -49,4 +49,24 @@ return [
 	// 'expose-global-functions' => true, // test for '\Illuminate\View\tap()' - No don't, because this will overwrite the 'config()' function, and probably others. Only expose the functions that are needed (that break the code if not exposed)
 	// Laravel Illuminate functions
 	'expose-functions' => ['tap', 'collect', 'data_get', 'last', 'e', 'env', 'value'],
+
+	// [ Patchers ]
+	'patchers' => [
+		static function (string $filePath, string $prefix, string $content): string {
+
+			// Replace "CAPRO_PHAR_SCOPE" for all files in the project.
+			if (strpos($filePath, 'vendor') === false) {
+				// Remember that scoper/box has added a "\" in front of the constant so it's `\CAPRO_PHAR_SCOPE` that needs to be replaced.
+				$content = str_replace('\CAPRO_PHAR_SCOPE', "'\\" . $prefix . "'", $content);
+			}
+
+			if (strpos($filePath, 'vendor/illuminate') === 0) {
+				$content = str_replace('(\\\\Illuminate\\\\', '(' . $prefix . '\\\\Illuminate\\\\', $content);
+				$content = str_replace(' \\\\Illuminate\\\\', ' ' . $prefix . '\\\\Illuminate\\\\', $content);
+			}
+
+			return $content;
+		},
+	],
+
 ];

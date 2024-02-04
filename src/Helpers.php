@@ -18,25 +18,26 @@ abstract class Helpers {
 		}
 	}
 
-	// Recursive copy directory content from $src to $dest
-	public static function rcopy(string $src, string $dest): void {
+	// Recursive copy directory content from $dir to $dest
+	public static function rcopy(string $dir, string $dest): void {
 		if (!is_dir($dest)) {
 			mkdir($dest);
 		}
 
-		$content = glob($src . '/{,.}*', GLOB_BRACE);
+		// Notice: PHAR files does not support glob().
+		foreach (scandir($dir) as $basename) {
+			// $basename = basename($path);
+			$path = $dir . DIRECTORY_SEPARATOR . $basename;
 
-		foreach ($content as $path) {
-			$basename = basename($path);
 			if ($basename == '.' || $basename == '..') {
 				continue;
 			}
 
 			if (is_dir($path)) {
-				self::rcopy($path, $dest . '/' . $basename);
+				self::rcopy($path, $dest . DIRECTORY_SEPARATOR . $basename);
 			} else {
 				// Copy single file
-				copy($path, $dest . '/' . $basename);
+				copy($path, $dest . DIRECTORY_SEPARATOR . $basename);
 			}
 		}
 	}

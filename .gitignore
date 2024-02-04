@@ -12,6 +12,7 @@
 .php-cs-fixer.cache
 desktop.ini
 /.env
+/build
 
 # (not sure yet, depends if they are split up into separate repos or not)
 /demo*

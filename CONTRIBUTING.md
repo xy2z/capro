@@ -9,3 +9,14 @@ Pull Requests are welcome!
 - When you test the code you should run "php capro <command>" to make sure you are running the correct script.
 
 If you have any questions or notes about contributing, please ask in [Discussions](https://github.com/xy2z/capro/discussions)
+
+
+## Build and Release
+1. Check `box validate` command to validate the box.json.dist file. (should be part of "build.sh" script, fails if not valid)
+1. Make sure the version is bumped in `src/capro_bootstrap.php`
+1. Run `composer build` to build the phar file in the `build` dir.
+1. Test the `build/capro.phar` file.
+1. Run `composer validate` to check the `build/composer.json` file.
+1. Copy the `build/capro.phar` file to the capro-build-test repo, commit and push
+1. Make a new release on GitHub (make sure the version matches the one in `src/capro_bootstrap.php`)
+
