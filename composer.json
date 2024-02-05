@@ -46,7 +46,10 @@
 	"scripts": {
 		"build": "sh build.sh",
 		"b": "sh build.sh",
-		"extract": "box extract build/capro.phar build/extract"
+		"extract": "box extract build/capro.phar build/extract",
+		"cs": "php-cs-fixer fix",
+		"test": "phpunit tests",
+		"stan": "phpstan analyse"
 	},
 	"scripts-descriptions": {
 		"build": "Builds the capro.phar file using build.sh",
