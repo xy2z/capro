@@ -11,6 +11,8 @@ composer install --no-dev --prefer-dist --no-interaction --no-progress --no-scri
 box compile || exit
 # box compile --debug || exit
 
+# Todo: Copy build-files into build dir, or just keep them in build dir without gitignore? (gitignore the phar file?)
+
 # Do some simple testing
 cd build || exit
 php capro.phar --version || exit

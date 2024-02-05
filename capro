@@ -62,7 +62,6 @@ if (file_exists(getcwd() . '/../../autoload.php')) {
 
 // echo '__DIR__: ' . __DIR__ . PHP_EOL;
 // echo 'getcwd: ' . getcwd() . PHP_EOL;
-echo '[debug] CAPRO_SITE_ROOT_DIR: ' . CAPRO_SITE_ROOT_DIR . PHP_EOL . PHP_EOL;
 
 // if (!defined('CAPRO_SITE_ROOT_DIR')) {
 // 	echo 'Error: Composer autoload.php was not found. (try "composer install")' . PHP_EOL;

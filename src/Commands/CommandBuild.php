@@ -235,13 +235,11 @@ class CommandBuild implements CommandInterface {
 		}
 
 		// Print success / errors.
-		// echo PHP_EOL;
 		if ($this->count_view_build_errors) {
 			if ($this->tell_errors) {
 				foreach ($this->tell_errors as $msg) {
 					Helpers::tell($msg);
 				}
-				// echo PHP_EOL;
 			}
 			Helpers::tell('❌ Done with ' . $this->count_view_build_errors . ' errors. (in ' . $build_time . ' seconds)');
 		} else {
