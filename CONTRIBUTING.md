@@ -20,3 +20,4 @@ If you have any questions or notes about contributing, please ask in [Discussion
 1. Copy the `build/capro.phar` file to the capro-build-test repo, commit and push
 1. Make a new release on GitHub (make sure the version matches the one in `src/capro_bootstrap.php`)
 
+To get back the development composer packages (phpstan, etc.) run `composer install` again.
