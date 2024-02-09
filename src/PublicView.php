@@ -14,7 +14,7 @@ use xy2z\Capro\View;
  * `$post = Capro::news()->first();
  * Get the post title: `$post->title` (will get the "title" variable from the post's yaml-front-matter)
  *
- * Magic properties of the View class
+ * Magic properties of the View class (for phpstan)
  * @property string $path
  * @property string $dir
  * @property string $relative_path; // needed for cli messages (errors)

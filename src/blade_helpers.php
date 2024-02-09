@@ -24,6 +24,3 @@ if (!function_exists('config')) {
 		return Config::get($key, $default);
 	}
 }
-
-// add env() ?
-// add dd / dump ?

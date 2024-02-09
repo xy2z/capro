@@ -58,6 +58,7 @@ class View {
 		if ($file_content) {
 			// Replace YAML placeholders (variables).
 			// Only do replacement on the yaml section.
+			// ONLY use "\n" for linebreaks and not PHP_EOL)
 			$first = strpos($file_content, '---' . "\n");
 			$find_yaml_end_string = "\n" . '---' . "\n";
 			$second = strpos($file_content, $find_yaml_end_string, $first + 3);
@@ -192,7 +193,6 @@ class View {
 	}
 
 	protected static function get_blade_helpers(): string {
-		// return "@php (require_once(CAPRO_SITE_ROOT_DIR . 'src/blade_helpers.php'))";
 		// Use CAPRO_DIR so it uses the Phar "dir" when using the phar.
 		return "@php (require_once('" . CAPRO_DIR . "/src/blade_helpers.php'))";
 	}

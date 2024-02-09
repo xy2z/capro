@@ -6,7 +6,6 @@ use xy2z\Capro\Config;
 use Symfony\Component\Yaml\Yaml;
 
 abstract class Helpers {
-
 	// Print messages to CLI.
 	public static function tell(string $msg): void {
 		echo '» ' . $msg . PHP_EOL;
@@ -170,13 +169,12 @@ abstract class Helpers {
 	/**
 	 * Fix Linebreaks, so we only use "\n" as linebreaks
 	 * So it's easier to do string comparisons.
+	 * also see https://www.sttmedia.com/newline
 	 *
-	 * @param string $str
+	 * @param string $str Global, for performance.
 	 * @return void
 	 */
 	public static function fix_linebreaks(string &$str): void {
-		// $str is global, for performance.
-		// also see https://www.sttmedia.com/newline
 		$str = str_replace("\r\n", "\n", $str); // windows
 		$str = str_replace("\r", "\n", $str); // mac os 9 and older
 	}
