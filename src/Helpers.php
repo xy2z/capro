@@ -6,6 +6,7 @@ use xy2z\Capro\Config;
 use Symfony\Component\Yaml\Yaml;
 
 abstract class Helpers {
+
 	// Print messages to CLI.
 	public static function tell(string $msg): void {
 		echo '» ' . $msg . PHP_EOL;

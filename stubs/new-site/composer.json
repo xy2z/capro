@@ -1,5 +1,5 @@
 {
     "require": {
-        "xy2z/capro-build-test": "@dev"
+        "xy2z/capro": "1.*@alpha"
     }
 }
