@@ -1,6 +1,5 @@
 {
 	"output": "build/capro.phar",
-
 	"exclude-composer-files": false,
 	"files": [
 		"capro",

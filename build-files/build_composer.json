@@ -1,5 +1,5 @@
 {
-    "name": "xy2z/capro-build-test",
+    "name": "xy2z/capro",
     "description": "Static site generator",
     "type": "library",
 	"license": "MIT",
