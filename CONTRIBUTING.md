@@ -17,7 +17,7 @@ If you have any questions or notes about contributing, please ask in [Discussion
 1. Run `composer build` to build the phar file in the `build` dir.
 1. Test the `build/capro.phar` file.
 1. Run `composer validate` to check the `build/composer.json` file.
-1. Copy the `build/capro.phar` file to the capro-build-test repo, commit and push
+1. Overwrite the `build/capro.phar` file in the master branch, commit and push
 1. Make a new release on GitHub (make sure the version matches the one in `src/capro_bootstrap.php`)
 
 To get back the development composer packages (phpstan, etc.) run `composer install` again.
