@@ -2,7 +2,7 @@
 
 namespace xy2z\Capro;
 
-define('CAPRO_VERSION', '1.0.0-alpha.47');
+define('CAPRO_VERSION', '1.0.0-alpha.33');
 
 // Get root dir of the phar file.
 // Can't use __DIR__ because that could return the .phar file.
