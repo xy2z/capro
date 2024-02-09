@@ -48,7 +48,7 @@
 		"b": "sh build.sh",
 		"extract": "box extract build/capro.phar build/extract",
 		"cs": "php-cs-fixer fix",
-		"test": "phpunit tests",
+		"test": "phpunit tests --testdox",
 		"stan": "phpstan analyse"
 	},
 	"scripts-descriptions": {

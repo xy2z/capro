@@ -175,7 +175,7 @@ abstract class Helpers {
 	 * @return void
 	 */
 	public static function fix_linebreaks(string &$str): void {
-		$str = str_replace("\r\n", "\n", $str); // windows
+		$str = str_replace("\r\n", "\n", $str); // windows (<CR><LF> = \r\n)
 		$str = str_replace("\r", "\n", $str); // mac os 9 and older
 	}
 }
