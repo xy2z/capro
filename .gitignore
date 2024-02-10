@@ -1,0 +1,15 @@
+# Gitignore for the Capro BUILD repo.
+/.vscode
+/vendor
+/build
+/public
+/config
+/static
+/views
+/.env
+/tmp*
+.capro-cache*
+.php-cs-fixer.cache
+desktop.ini
+/demo*
+/.box_dump/
