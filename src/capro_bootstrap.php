@@ -102,7 +102,6 @@ function capro_is_global_bin(): bool {
 // And if you already are in a project with vendor/bin/capro it should not go in endless loop and call itself.
 if (file_exists(getcwd() . '/vendor/bin/capro')) {
 	// If these 2 are equal, we should not call anymore, or else it will be an endless loop.
-	// Todo: Fix this $project_bin_path as it's actually empty and it should not be?!
 	$project_bin_path = realpath(CAPRO_ROOT_DIR . '/../../bin/capro');
 	$dir_bin_path = getcwd() . '/vendor/bin/capro';
 
