@@ -23,9 +23,7 @@ Capro is a static-site generator for PHP 8+
 
 ## ⚠ Notice
 
-Capro is currently in [alpha](https://github.com/xy2z/capro/issues/5), and is not thoroughly tested for production.
-
-Please report bugs via [GitHub Issues](https://github.com/xy2z/capro/issues)
+Capro is currently in [alpha](https://github.com/xy2z/capro/issues/5), please report bugs via [GitHub Issues](https://github.com/xy2z/capro/issues)
 
 
 ## About
