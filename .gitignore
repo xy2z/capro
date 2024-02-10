@@ -12,3 +12,6 @@
 .php-cs-fixer.cache
 desktop.ini
 /.env
+/build
+/demo*
+/.box_dump/

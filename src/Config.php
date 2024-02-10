@@ -7,7 +7,7 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * Capro config class
- * Add custom hadnler to LiteConfig package to support YAML files.
+ * Add custom handler to LiteConfig package to support YAML files.
  */
 class Config extends LiteConfig {
 	protected static function custom_handler(string $extension, string $path): mixed {

@@ -1,10 +1,35 @@
 <?php
 
-define('CAPRO_START_TIME', microtime(true));
-define('CAPRO_VERSION', '1.0.0-alpha.32');
+namespace xy2z\Capro;
+
+define('CAPRO_VERSION', '1.0.0-alpha.33');
+
+// Get root dir of the phar file.
+// Can't use __DIR__ because that could return the .phar file.
+// If in phar, get the DIR that the phar is in. If not, get the root dir of the project.
+if (substr(CAPRO_DIR, 0, 7) === 'phar://') {
+	$root_dir = dirname(substr(CAPRO_DIR, 7), 1); // in phar.
+} else {
+	$root_dir = CAPRO_DIR; // not in phar.
+}
+
+define('CAPRO_ROOT_DIR', $root_dir);
+
+function capro_path_format(string $path): string {
+	// Replace all slashes with "/" so it's easier to compare.
+	return trim(str_replace('\\', '/', $path));
+}
+
+function capro_path_match_exact(string $path1, string $path2): bool {
+	return (capro_path_format(strtolower($path1)) === capro_path_format(strtolower($path2)));
+}
+
+function capro_path_match_partial(string $haystack, string $needle): bool {
+	return strpos(capro_path_format(strtolower($haystack)), capro_path_format(strtolower($needle))) !== false;
+}
 
 /**
- * is_global_bin()
+ * capro_is_global_bin()
  *
  * Used for checking if user ran "capro" or "vendor/bin/capro" in a project, to determine
  * if this is the global composer package (capro) or is a project package (vendor/bin/capro)
@@ -13,27 +38,24 @@ define('CAPRO_VERSION', '1.0.0-alpha.32');
  * If we are in that directory, then it is the global binary.
  * However, this wouldn't work if COMPOSER is not installed in PATH or set as alias.
  */
-function is_global_bin(string $dir): bool {
+function capro_is_global_bin(): bool {
+	// ONLY cache for global_bin, as the other is not really used, and can be done later if needed.
 	// Must start with ".capro-cache" as it is in the .gitignore.
-	$is_global_filename = '/.capro-cache-is-global-package';
-	$not_global_filename = '/.capro-cache-local';
+	$global_cache_path = CAPRO_ROOT_DIR . '/.capro-cache-global';
 
 	// First, check if we have cache so we don't have to run the composer command.
-	if (file_exists($dir . $is_global_filename)) {
+	if (file_exists($global_cache_path)) {
 		return true;
-	}
-	if (file_exists($dir . $not_global_filename)) {
-		return false;
 	}
 
 	// Cache not found.
-	// Check if the directory matches "Composer/vendor/bin/capro" or ".composer/vendor/bin/capro"
+	// Check for common composer directories matches.
 	if (
-		(strpos(strtolower($dir), str_replace('/', DIRECTORY_SEPARATOR, '/composer/vendor/xy2z/capro')) !== false)
-		|| (strpos(strtolower($dir), str_replace('/', DIRECTORY_SEPARATOR, '/.composer/vendor/xy2z/capro')) !== false)
+		capro_path_match_partial(CAPRO_DIR, '/composer/vendor/xy2z/capro')
+		|| capro_path_match_partial(CAPRO_DIR, '/.composer/vendor/xy2z/capro')
 	) {
 		// We are in global path.
-		touch($dir . $is_global_filename); // cache it for next time.
+		touch($global_cache_path); // cache it for next time.
 		return true;
 	}
 
@@ -50,15 +72,17 @@ function is_global_bin(string $dir): bool {
 		$composer_home = shell_exec('composer config --global home');
 	}
 
-	if (!is_null($composer_home)) {
+	// Remove linebreaks etc. Notice: turns possible NULL value into empty string.
+	$composer_home = trim($composer_home);
+
+	if (!empty($composer_home)) {
 		// The command did not fail.
-		if ($dir === realpath($composer_home . '/vendor/xy2z/capro')) {
-			touch($dir . $is_global_filename); // cache it for next time.
+		if (capro_path_match_exact(CAPRO_DIR, $composer_home . '/vendor/xy2z/capro')) {
+			touch($global_cache_path); // cache it for next time.
 			return true;
 		}
 
 		// If it's not global then it must be a project directory.
-		touch($dir . $not_global_filename); // cache it for next time.
 		return false;
 	}
 
@@ -72,18 +96,18 @@ function is_global_bin(string $dir): bool {
 // This should do the following:
 // If running just "capro" (the global composer package) it should call the local project "vendor/bin/capro" if it
 // exists, as a shortcut.
-
 // But - if you are in a project-A and run `path/to/project-B/vendor/bin/capro` it should NOT passthru to the
 // project-A capro file.
 
 // And if you already are in a project with vendor/bin/capro it should not go in endless loop and call itself.
 if (file_exists(getcwd() . '/vendor/bin/capro')) {
 	// If these 2 are equal, we should not call anymore, or else it will be an endless loop.
-	$project_bin_path = realpath(__DIR__ . '/../../bin/capro');
-	$dir_bin_path = realpath(getcwd() . '/vendor/bin/capro');
-	if ($project_bin_path === $dir_bin_path) {
-		// Always continue. NEVER call any other script, or else it will loop endlessly.
-	} elseif (is_global_bin(__DIR__)) {
+	$project_bin_path = realpath(CAPRO_ROOT_DIR . '/../../bin/capro');
+	$dir_bin_path = getcwd() . '/vendor/bin/capro';
+
+	if (capro_path_match_exact($project_bin_path, $dir_bin_path)) {
+		// The vendor dir is the same as the one we are in, so continue to not get in a infinite loop.
+	} elseif (capro_is_global_bin()) {
 		// Only pass if this is the global binary, or else it would not be possible to call other projects binary files
 		// if you are in Project-A and call `path/to/project-B/vendor/bin/capro` it would still pass it back to the
 		// Project-A - and we do not want that.

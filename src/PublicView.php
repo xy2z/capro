@@ -13,6 +13,16 @@ use xy2z\Capro\View;
  * Can be called in a blade view, eg. using the Capro class:
  * `$post = Capro::news()->first();
  * Get the post title: `$post->title` (will get the "title" variable from the post's yaml-front-matter)
+ *
+ * Magic properties of the View class (for phpstan)
+ * @property string $path
+ * @property string $dir
+ * @property string $relative_path; // needed for cli messages (errors)
+ * @property string $basename
+ * @property string $label
+ * @property string $save_path; // full path to where the build view file (html) will be saved
+ * @property string $href
+ * @property int $type
  */
 class PublicView {
 	protected View $view;

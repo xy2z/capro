@@ -1,0 +1,23 @@
+{
+	"output": "build/capro.phar",
+	"exclude-composer-files": false,
+	"files": [
+		"capro",
+		"composer.json",
+		".gitattributes",
+		".gitignore",
+		"stubs/new-site/.gitignore"
+	],
+
+	"directories": [
+		"src",
+		"stubs",
+		"vendor",
+		"tests"
+	],
+
+	"compactors": [
+		"KevinGH\\Box\\Compactor\\PhpScoper"
+	]
+
+}

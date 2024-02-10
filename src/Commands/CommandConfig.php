@@ -4,6 +4,8 @@ namespace xy2z\Capro\Commands;
 
 use xy2z\Capro\Config;
 
+use function dump;
+
 /**
  * CommandConfig
  * Debug config in the command line interface.
