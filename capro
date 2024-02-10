@@ -15,12 +15,12 @@ use Dotenv\Dotenv;
 // Call bootstrap to check if we should use capro shortcut for vendor/bin/capro.
 define('CAPRO_START_TIME', microtime(true));
 define('CAPRO_DIR', __DIR__);
-define('CAPRO_SITE_ROOT_DIR', getcwd() . DIRECTORY_SEPARATOR); // TODO: This will change depending on where the user is!?
+define('CAPRO_SITE_ROOT_DIR', getcwd() . DIRECTORY_SEPARATOR); // The "user's" current working site root directory.
 define('CAPRO_PHAR_SCOPE', ''); // Constant be replaced in the phar build with the unique scope. (see scoper.inc.php patchers)
 
 require __DIR__ . '/src/capro_bootstrap.php';
 
-// Autoload dev/phar autoload.php (for box/phar and development of capro)
+// Autoload.php (for box/phar and development of capro)
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 	require __DIR__ . '/vendor/autoload.php';
 } else {
