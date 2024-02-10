@@ -1,6 +1,0 @@
-#!/usr/bin/env php
-<?php
-
-Phar::loadPhar(__DIR__ . '/capro.phar', 'capro.phar');
-
-require 'phar://capro.phar/capro';
