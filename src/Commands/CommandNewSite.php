@@ -44,7 +44,7 @@ class CommandNewSite implements CommandInterface {
 
 		Helpers::rcopy(__DIR__ . '/../../stubs/new-site/', $this->site_name);
 		chdir($this->site_name);
-		passthru('composer install --no-dev'); // TEST "--no-dev"
+		passthru('composer install');
 		echo PHP_EOL;
 
 		// Bulild the new site.

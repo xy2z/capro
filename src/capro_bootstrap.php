@@ -51,8 +51,8 @@ function capro_is_global_bin_v2(): bool {
 	// Cache not found.
 	// Check for common composer directories matches.
 	if (
-		capro_path_match_partial(CAPRO_DIR, '/composer/vendor/xy2z/capro-build-test')
-		|| capro_path_match_partial(CAPRO_DIR, '/.composer/vendor/xy2z/capro-build-test')
+		capro_path_match_partial(CAPRO_DIR, '/composer/vendor/xy2z/capro')
+		|| capro_path_match_partial(CAPRO_DIR, '/.composer/vendor/xy2z/capro')
 	) {
 		// We are in global path.
 		touch($global_cache_path); // cache it for next time.
@@ -77,7 +77,7 @@ function capro_is_global_bin_v2(): bool {
 
 	if (!empty($composer_home)) {
 		// The command did not fail.
-		if (capro_path_match_exact(CAPRO_DIR, $composer_home . '/vendor/xy2z/capro-build-test')) {
+		if (capro_path_match_exact(CAPRO_DIR, $composer_home . '/vendor/xy2z/capro')) {
 			touch($global_cache_path); // cache it for next time.
 			return true;
 		}
@@ -96,7 +96,6 @@ function capro_is_global_bin_v2(): bool {
 // This should do the following:
 // If running just "capro" (the global composer package) it should call the local project "vendor/bin/capro" if it
 // exists, as a shortcut.
-
 // But - if you are in a project-A and run `path/to/project-B/vendor/bin/capro` it should NOT passthru to the
 // project-A capro file.
 
