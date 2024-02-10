@@ -17,56 +17,16 @@ define('CAPRO_START_TIME', microtime(true));
 define('CAPRO_DIR', __DIR__);
 define('CAPRO_SITE_ROOT_DIR', getcwd() . DIRECTORY_SEPARATOR); // TODO: This will change depending on where the user is!?
 define('CAPRO_PHAR_SCOPE', ''); // Constant be replaced in the phar build with the unique scope. (see scoper.inc.php patchers)
+
 require __DIR__ . '/src/capro_bootstrap.php';
 
-// =================================
 // Autoload dev/phar autoload.php (for box/phar and development of capro)
-/* if (file_exists(__DIR__ . '/vendor/scoper-autoload.php')) {
-	// DEPRECATED! Box uses the normal "autoload.php" so this is not needed anyways.
-	echo ' > SCOPER autoload: ' . __DIR__ . '/vendor/scoper-autoload.php' . PHP_EOL;
-	require __DIR__ . '/vendor/scoper-autoload.php';
-} else */ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 	require __DIR__ . '/vendor/autoload.php';
 } else {
 	echo 'Error: Composer\'s vendor/autoload.php file was not found. (try `composer install`)' . PHP_EOL;
 	exit(1);
 }
-
-// =================================
-
-// =================================
-// Old prepare:
-// Check if we are in a build dir (scoped build dir)
-/*if (file_exists(__DIR__ . '/vendor/scoper-autoload.php')) {
-	// This is deprecated since we're using Box.
-	require __DIR__ . '/vendor/scoper-autoload.php';
-	define('CAPRO_SITE_ROOT_DIR', __DIR__ . DIRECTORY_SEPARATOR);
-} else*/ /* if (file_exists(getcwd() . '/vendor/autoload.php')) {
-	// Check if we are in a development dir (the one that builds the scoped build dir)
-	// Development (when developing/testing this project),
-	// using `php capro <cmd>`
-	echo ' > autoload: ' . getcwd() . '/vendor/autoload.php' . PHP_EOL;
-	require getcwd() . '/vendor/autoload.php';
-	define('CAPRO_SITE_ROOT_DIR', getcwd() . DIRECTORY_SEPARATOR);
-}
-
-if (file_exists(getcwd() . '/../../autoload.php')) {
-	// For sites that is using this using vendor/bin
-	// Also for global installed..
-	echo ' > autoload: ' . getcwd() . '/../../autoload.php' . PHP_EOL;
-	require getcwd() . '/../../autoload.php';
-	define('CAPRO_SITE_ROOT_DIR', getcwd() . '/../../../'); // go back 3 dirs (/vendor/xy2z/capro/)
-}
-*/
-// =================================
-
-// echo '__DIR__: ' . __DIR__ . PHP_EOL;
-// echo 'getcwd: ' . getcwd() . PHP_EOL;
-
-// if (!defined('CAPRO_SITE_ROOT_DIR')) {
-// 	echo 'Error: Composer autoload.php was not found. (try "composer install")' . PHP_EOL;
-// 	exit(1);
-// }
 
 // Load env (before config)
 if (file_exists(CAPRO_SITE_ROOT_DIR . '.env')) {
@@ -83,12 +43,10 @@ if (file_exists(CAPRO_SITE_ROOT_DIR . '.env')) {
 define('CAPRO_CONFIG_DIR', CAPRO_SITE_ROOT_DIR . 'config');
 if (is_dir(CAPRO_CONFIG_DIR)) {
 	Config::load_capro_config();
-	// } else {
-	// Helpers::tell('Notice: Config dir not found: ' . CAPRO_CONFIG_DIR); // verbose. (but never for global composer "capro" commands.)
 }
 
 // Set CONSTANTS from Config (or use defaults) -- after loading config.
-// Cant use realpath() here because the directories might not exist yet.
+// Can't use realpath() here because the directories might not exist yet.
 define('CAPRO_PUBLIC_DIR', CAPRO_SITE_ROOT_DIR . Config::get('core.public_dir', 'public'));
 define('CAPRO_VIEWS_DIR', CAPRO_SITE_ROOT_DIR . Config::get('core.views_dir', 'views'));
 define('CAPRO_VIEWS_CACHE_DIR', CAPRO_SITE_ROOT_DIR . Config::get('core.views_cache_dir', 'views/cache'));

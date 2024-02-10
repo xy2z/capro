@@ -38,7 +38,7 @@ function capro_path_match_partial(string $haystack, string $needle): bool {
  * If we are in that directory, then it is the global binary.
  * However, this wouldn't work if COMPOSER is not installed in PATH or set as alias.
  */
-function capro_is_global_bin_v2(): bool {
+function capro_is_global_bin(): bool {
 	// ONLY cache for global_bin, as the other is not really used, and can be done later if needed.
 	// Must start with ".capro-cache" as it is in the .gitignore.
 	$global_cache_path = CAPRO_ROOT_DIR . '/.capro-cache-global';
@@ -108,7 +108,7 @@ if (file_exists(getcwd() . '/vendor/bin/capro')) {
 
 	if (capro_path_match_exact($project_bin_path, $dir_bin_path)) {
 		// The vendor dir is the same as the one we are in, so continue to not get in a infinite loop.
-	} elseif (capro_is_global_bin_v2()) {
+	} elseif (capro_is_global_bin()) {
 		// Only pass if this is the global binary, or else it would not be possible to call other projects binary files
 		// if you are in Project-A and call `path/to/project-B/vendor/bin/capro` it would still pass it back to the
 		// Project-A - and we do not want that.
