@@ -1,6 +1,7 @@
 {
 	"name": "xy2z/capro",
 	"description": "Static site generator",
+	"keywords": ["ssg", "static site generator", "blade"],
 	"type": "library",
 	"license": "MIT",
 	"homepage": "https://capro.xy2z.io",
