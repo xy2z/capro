@@ -1,14 +1,15 @@
-# Gitignore for Capro Core (not for sites)
+# Gitignore for the Capro BUILD repo.
 /.vscode
-/vendor/
-/cache/
-/config/
-/content/
-/views/
-/static/
-/public/
+/vendor
+/build
+/public
+/config
+/static
+/views
+/.env
 /tmp*
 .capro-cache*
 .php-cs-fixer.cache
 desktop.ini
-/.env
+/demo*
+/.box_dump/

@@ -1,3 +1,5 @@
+# Gitattributes for the Capro BUILD repo.
+
 /capro-logo.png           export-ignore
 /README.md                export-ignore
 /.gitignore               export-ignore
