@@ -198,7 +198,7 @@ class View {
 		return $this->save_build_file($build_content);
 	}
 
-	private static function slug_filename(string $filename) {
+	private static function slug_filename(string $filename): string {
 		$filename = mb_strtolower($filename);
 		if (substr($filename, -10) === '.blade.php') {
 			$filename = substr($filename, 0, -10);
