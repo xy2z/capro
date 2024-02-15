@@ -25,7 +25,7 @@ class View {
 	protected string $href;
 	protected int $type;
 	protected Document $yaml_front_matter;
-	static private int $build_counter = 0;
+	private static int $build_counter = 0;
 
 	public const TYPE_PAGE = 0;
 	public const TYPE_COLLECTION = 1;
@@ -204,7 +204,7 @@ class View {
 			$filename = substr($filename, 0, -10);
 		}
 
-		$filename = str_replace("\\", '/', $filename);
+		$filename = str_replace('\\', '/', $filename);
 		$filename = str_replace('/', '_', $filename);
 
 		return Str::slug($filename, '_');
