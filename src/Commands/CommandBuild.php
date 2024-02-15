@@ -200,10 +200,6 @@ class CommandBuild implements CommandInterface {
 				$this->count_view_build_errors++;
 			}
 		}
-
-		// Delete temporary file build.
-		$tmp_path = CAPRO_VIEWS_DIR . '/__tmp.blade.php';
-		@unlink($tmp_path);
 	}
 
 	protected function load_view_templates(): void {

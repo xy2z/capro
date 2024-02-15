@@ -13,6 +13,7 @@ use xy2z\Capro\PublicView;
 use xy2z\Capro\Helpers;
 use Spatie\YamlFrontMatter\Document;
 use Throwable;
+use Illuminate\Support\Str;
 
 class View {
 	protected string $path;
@@ -24,6 +25,7 @@ class View {
 	protected string $href;
 	protected int $type;
 	protected Document $yaml_front_matter;
+	static private int $build_counter = 0;
 
 	public const TYPE_PAGE = 0;
 	public const TYPE_COLLECTION = 1;
@@ -167,8 +169,9 @@ class View {
 
 		// Save the file without the yaml-front-matter in a temp location.
 		// This is needed because Blade cannot make from a string, it needs to be an actual file.
-		// TODO: Refactor when possible.
-		$saved = file_put_contents(CAPRO_VIEWS_DIR . '/__tmp.blade.php', self::get_blade_helpers() . "\n" . $this->yaml_front_matter->body());
+		// TODO: Refactor when possible, to make Blade work with strings instead of temp files.
+		$basename = '__tmp_' . self::$build_counter++ . '_' . self::slug_filename($this->relative_path);
+		$saved = file_put_contents(CAPRO_VIEWS_DIR . DIRECTORY_SEPARATOR . $basename . '.blade.php', self::get_blade_helpers() . "\n" . $this->yaml_front_matter->body());
 
 		if ($saved === false) {
 			throw new Exception('Could not build view.'); // TODO: If this is in CommandServe, just retry in a few microseconds...
@@ -177,11 +180,14 @@ class View {
 		// Build (make view)
 		$build_content = null;
 		try {
-			$make = self::$blade->make('__tmp', $this->get_view_data());
+			$make = self::$blade->make($basename, $this->get_view_data());
 			$build_content = $make->render(); // Do this here so it can throw exceptions.
 		} catch (Throwable $e) {
 			Helpers::tell_error('Error in ' . $this->relative_path . ': ' . $e->getMessage());
 		}
+
+		// Cleanup
+		@unlink(CAPRO_VIEWS_DIR . DIRECTORY_SEPARATOR . $basename . '.blade.php');
 
 		if (is_null($build_content)) {
 			// Error.
@@ -190,6 +196,18 @@ class View {
 
 		// Save file
 		return $this->save_build_file($build_content);
+	}
+
+	private static function slug_filename(string $filename) {
+		$filename = mb_strtolower($filename);
+		if (substr($filename, -10) === '.blade.php') {
+			$filename = substr($filename, 0, -10);
+		}
+
+		$filename = str_replace("\\", '/', $filename);
+		$filename = str_replace('/', '_', $filename);
+
+		return Str::slug($filename, '_');
 	}
 
 	protected static function get_blade_helpers(): string {

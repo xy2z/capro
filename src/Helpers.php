@@ -178,4 +178,5 @@ abstract class Helpers {
 		$str = str_replace("\r\n", "\n", $str); // windows (<CR><LF> = \r\n)
 		$str = str_replace("\r", "\n", $str); // mac os 9 and older
 	}
+
 }
