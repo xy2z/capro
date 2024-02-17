@@ -22,10 +22,15 @@ require __DIR__ . '/src/capro_bootstrap.php';
 
 // Autoload.php (for box/phar and development of capro)
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-	require __DIR__ . '/vendor/autoload.php';
+	require_once __DIR__ . '/vendor/autoload.php';
 } else {
 	echo 'Error: Composer\'s vendor/autoload.php file was not found. (try `composer install`)' . PHP_EOL;
 	exit(1);
+}
+
+// Autoload "client's" autoload.php for their project.
+if (file_exists(CAPRO_SITE_ROOT_DIR . 'vendor/autoload.php')) {
+	require_once CAPRO_SITE_ROOT_DIR . 'vendor/autoload.php';
 }
 
 // Load env (before config)

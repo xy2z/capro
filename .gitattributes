@@ -1,3 +1,4 @@
+# This file is not really needed as the dev branch is not released as a package
 /capro-logo.png           export-ignore
 /README.md                export-ignore
 /.gitignore               export-ignore
