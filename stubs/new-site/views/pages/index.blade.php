@@ -67,6 +67,7 @@
 					<a target="_blank" href="{{ $url }}">{{ $title }}</a>
 				@endforeach
 			</nav>
+		</div>
 	</body>
 
 </html>
