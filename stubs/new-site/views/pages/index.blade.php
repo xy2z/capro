@@ -22,8 +22,6 @@
 				height: 65%;
 				font-family: 'Open Sans', Tahoma, Geneva, Verdana, sans-serif;
 				font-size: 17px;
-				background: #f9f9f9;
-				background: #2C2C2C;
 				background: #1e2932;
 				color: #CD9;
 				padding: 0 30px;
@@ -55,6 +53,15 @@
 			nav a:hover {
 				opacity: 1;
 			}
+
+			div.version {
+				color: #fff;
+				font-style: italic;
+				font-size: 0.85em;
+				margin-top: 5em;
+				opacity: 0.35;
+			}
+
 		</style>
 	</head>
 
@@ -67,7 +74,10 @@
 					<a target="_blank" href="{{ $url }}">{{ $title }}</a>
 				@endforeach
 			</nav>
-		</div>
+
+			<div class="version">v{{ CAPRO_VERSION }}</div>
 	</body>
 
 </html>
+
+

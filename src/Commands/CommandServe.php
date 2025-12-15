@@ -45,6 +45,10 @@ class CommandServe implements CommandInterface {
 			return;
 		}
 
+		Helpers::tell('NOTICE: The serve command is in alpha and doesn\'t work properly yet.');
+		Helpers::tell('Instead, it is recommended to setup to run `capro build` automatically on each file save in your editor.');
+		echo PHP_EOL;
+
 		$this->start_server();
 
 		// Prepare file watcher, to watch for any changes.
