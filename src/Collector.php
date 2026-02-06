@@ -128,7 +128,7 @@ class Collector {
 	public function orderBy(string $sort_key, bool $case_insensitive = true): self {
 		usort($this->data, function ($a, $b) use ($sort_key, $case_insensitive) {
 			if ($case_insensitive) {
-				return strtolower($a->$sort_key) <=> strtolower($b->$sort_key);
+				return strtolower($a->$sort_key ?? '') <=> strtolower($b->$sort_key ?? '');
 			}
 			return $a->$sort_key <=> $b->$sort_key;
 		});
