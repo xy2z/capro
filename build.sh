@@ -4,10 +4,10 @@
 
 # Install composer packages
 # Make sure composer dependencies are installed using --no-dev, to avoid symlinks (will break memory!)
-composer install --no-dev --prefer-dist --no-interaction --no-progress --no-scripts --no-plugins --no-autoloader || exit
+composer install --ansi --no-dev --prefer-dist --no-interaction --no-progress --no-scripts --no-plugins --no-autoloader || exit
 
 # Compile to phar file (see `box.json.dist` for configuration)
-box compile || exit
+vendor/bin/box compile --ansi || exit
 
 # Do some simple testing
 cd build || exit

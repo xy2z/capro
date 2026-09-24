@@ -13,7 +13,7 @@ If you have any questions or notes about contributing, please ask in [Discussion
 
 ## Build and Release
 1. Checkout `dev` branch: `git checkout dev`
-1. Check `box validate` command to validate the `box.json.dist` file. (should be part of "build.sh" script, fails if not valid)
+1. Check `vendor/bin/box validate` command to validate the `box.json.dist` file. (should be part of "build.sh" script, fails if not valid)
 1. Make sure the version is bumped in `src/capro_bootstrap.php`
 1. Run `composer build` to build the phar file in the `build` dir.
 1. Manually test the `build/capro.phar` file.

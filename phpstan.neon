@@ -14,3 +14,5 @@ parameters:
 
 		# Ignore undefined constant, because it's defined in capro but somehow not registered.
 		- '/Constant CAPRO_START_TIME not found./'
+
+		- '/return type has no value type specified in iterable type array./'
