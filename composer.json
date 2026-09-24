@@ -2,12 +2,12 @@
 	"name": "xy2z/capro-dev",
 	"description": "Capro development branch",
 	"license": "MIT",
-	"homepage": "https://capro.xy2z.io",
+	"homepage": "https://capro.xy2z.dev",
 	"authors": [
 		{
 			"name": "Alexander <xy2z> Pedersen",
 			"email": "xy2z@pm.me",
-			"homepage": "https://xy2z.io",
+			"homepage": "https://xy2z.dev",
 			"role": "Developer"
 		}
 	],
