@@ -6,7 +6,7 @@ Capro is a static-site generator for PHP 8+
 
 ---
 
-[Quick Setup](#quick-setup) | [Documentation](https://capro.xy2z.io) | [Community](https://github.com/xy2z/capro/discussions) | [Sponsor](https://github.com/sponsors/xy2z)
+[Quick Setup](#quick-setup) | [Documentation](https://capro.xy2z.dev) | [Community](https://github.com/xy2z/capro/discussions) | [Sponsor](https://github.com/sponsors/xy2z)
 
 <p align="center">
   <a href="https://github.com/xy2z/capro/releases"><img src="https://img.shields.io/github/v/release/xy2z/capro?style=flat-square&include_prereleases&sort=semver"></a>
@@ -57,7 +57,7 @@ php -S localhost:82
 ```
 Head over to http://localhost:82 to see your new static Capro site.
 
-Learn more in the **[full documentation site](https://capro.xy2z.io).** (which was build in capro)
+Learn more in the **[full documentation site](https://capro.xy2z.dev).** (which was build in capro)
 
 
 ## Contributing
